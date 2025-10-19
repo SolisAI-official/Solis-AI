@@ -758,41 +758,41 @@
             letter-spacing: -1px;
         }
 
-.ao p a {
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    position: relative;
-    padding-bottom: 3px;
-    transition: all 0.3s ease;
-    border-bottom: 2px solid white;
-}
+        .ao p a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 3px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid white;
+        }
 
-.ao p a:hover {
-    opacity: 0.85;
-    border-bottom-color: transparent;
-}
+        .ao p a:hover {
+            opacity: 0.85;
+            border-bottom-color: transparent;
+        }
 
-.ap {
-    background: white;
-    border: none;
-    color: #ff6b35;
-    padding: 20px 48px;
-    border-radius: 50px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    display: inline-block;
-    text-decoration: none;
-    margin-top: 24px;
-}
+        .ap {
+            background: white;
+            border: none;
+            color: #ff6b35;
+            padding: 20px 48px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 24px;
+        }
 
-.ap:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-}
+        .ap:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        }
 
         footer {
             margin-top: 120px;
@@ -865,7 +865,171 @@
             color: #ff6b35;
             transform: translateY(-2px);
         }
+        
+        .au {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+        }
 
+        .au.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .av {
+            background: linear-gradient(160deg, #ffffff 0%, #fff5f0 100%);
+            border-radius: 32px;
+            padding: 50px;
+            box-shadow: 0 25px 80px rgba(255, 107, 53, 0.3);
+            max-width: 1000px;
+            width: 90%;
+            transform: scale(0.85) translateY(20px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 3px solid rgba(255, 179, 128, 0.3);
+            position: relative;
+        }
+
+        .au.active .av {
+            transform: scale(1) translateY(0);
+        }
+
+        .aw {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+        }
+
+        .aw:hover {
+            background: linear-gradient(135deg, #ff8856 0%, #ffa070 100%);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+        }
+
+        .au h5 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 28px;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .au iframe {
+            width: 100%;
+            height: 520px;
+            border-radius: 20px;
+            border: 3px solid #ffb380;
+            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15);
+            margin-bottom: 24px;
+        }
+
+        .ax {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .ax button {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+            border: none;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.35);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .ax button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.45);
+            background: linear-gradient(135deg, #ff8856 0%, #ffa070 100%);
+        }
+
+        .ax button::before {
+            content: '▶';
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .av {
+                width: 95%;
+                padding: 32px 24px;
+                max-height: 92vh;
+                overflow-y: auto;
+            }
+            
+            .au h5 {
+                font-size: 24px;
+                margin-bottom: 20px;
+                padding-right: 40px;
+            }
+            
+            .au iframe {
+                height: 280px;
+                margin-bottom: 20px;
+            }
+            
+            .aw {
+                top: 15px;
+                right: 15px;
+                width: 38px;
+                height: 38px;
+                font-size: 24px;
+            }
+
+            .ax button {
+                padding: 14px 32px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .au iframe {
+                height: 220px;
+            }
+            
+            .au h5 {
+                font-size: 20px;
+            }
+        }
         @media (max-width: 768px) {
             .a {
                 padding: 18px 24px;
@@ -1077,7 +1241,7 @@
         </div>
         <div class="l">
             <button>
-                <i data-lucide="play"></i>
+                <i data-lucide="play" id="VideoBtn"></i>
                 <span>Video walkthrough</span>
             </button>
         </div>
@@ -1112,7 +1276,7 @@
     <section class="q">
         <div class="r">
             <h3>Pricing Plans</h3>
-            <p>Power your growth with Solis AI. Each plan grants access to a Luminous model — the smarter way to automate your business.</p>
+            <p>Power your growth with Solis AI. Each plan grants access to a Luminous model, the smarter way to automate your business.</p>
         </div>
         <div class="s">
             <div class="t">
@@ -1313,14 +1477,14 @@
             <div class="ar">
                 <h3>Socials</h3>
                 <a href="https://x.com/Solis_Ai1">X</a>
-                <a href="https://www.youtube.com/@bloxinnit">YouTube</a>
+                <a href="https://www.youtube.com/@SolisAI-Official">YouTube</a>
                 <a href="https://discord.gg/kvpbmJZDQK">Discord</a>
             </div>
             <div class="ar">
                 <h3>Company</h3>
                 <a href="#">About Solis AI</a>
                 <a href="#">Careers</a>
-                <a href="#">Blog</a>
+                <a href="#">Our Goals</a>
             </div>
             <div class="ar">
                 <h3>Resources</h3>
@@ -1344,6 +1508,7 @@
                     </svg>
                 </a>
                 <a href="https://www.youtube.com/@bloxinnit"><i data-lucide="youtube"></i></a>
+                <a href="https://www.youtube.com/@SolisAI-Official"><i data-lucide="youtube"></i></a>
                 <a href="https://discord.gg/kvpbmJZDQK" target="_blank" aria-label="Discord">
                     <i class="fa-brands fa-discord"></i>
                 </a>
@@ -1351,9 +1516,51 @@
         </div>
     </footer>
 
+
+    <!--hidden-->
+    <div class="au" id="video-box">
+            <div class="av">
+                <button class="aw" id="close-video">&times;</button>
+                <h5>Video Walkthrough</h5>
+                <iframe src="https://www.youtube.com/embed/QC6lC5627Ck" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <a class="ax" href="https://www.youtube.com/watch?v=QC6lC5627Ck" target="_blank">
+                    <button>Watch on YouTube</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
     <script>
-        lucide.createIcons();
+        const videoBtn = document.querySelector('.l button');
+        const videoBox = document.getElementById("video-box");
+        const closeBtn = document.getElementById("close-video");
+
+    videoBtn.addEventListener('click', () => {
+        videoBox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+    
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        videoBox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+    
+    videoBox.addEventListener('click', (e) => {
+        if (e.target === videoBox) {
+            videoBox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && videoBox.classList.contains('active')) {
+            videoBox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
     </script>
 </body>
 </html>
