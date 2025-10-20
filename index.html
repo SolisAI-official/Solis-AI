@@ -23,17 +23,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 70px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 140, 90, 0.1);
+            padding: 20px 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 140, 90, 0.08);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .a h1 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             background: linear-gradient(135deg, #ff6b35 0%, #ff8c5a 100%);
             -webkit-background-clip: text;
@@ -44,29 +44,29 @@
 
         .b {
             display: flex;
-            gap: 32px;
+            gap: 28px;
         }
 
         .b button {
             background: none;
             border: none;
-            color: #2a2a2a;
+            color: #444;
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.25s ease;
             position: relative;
+            padding: 8px 4px;
         }
 
         .b button:hover {
             color: #ff6b35;
-            transform: translateY(-1px);
         }
 
         .b button::after {
             content: '';
             position: absolute;
-            bottom: -6px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
@@ -85,11 +85,11 @@
 
         .c button:first-child {
             background: transparent;
-            border: 2px solid #e0e0e0;
-            color: #2a2a2a;
-            padding: 11px 26px;
-            border-radius: 28px;
-            font-size: 15px;
+            border: 2px solid #ddd;
+            color: #444;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -98,44 +98,44 @@
         .c button:first-child:hover {
             border-color: #ff6b35;
             color: #ff6b35;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.12);
         }
 
         .c button:last-child {
             background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
             border: none;
             color: #1a1a1a;
-            padding: 13px 30px;
-            border-radius: 28px;
-            font-size: 15px;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.35);
+            box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
         }
 
         .c button:last-child:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
         }
 
         .d {
             text-align: center;
-            padding: 120px 40px 100px;
+            padding: 100px 40px 80px;
             max-width: 1000px;
             margin: 0 auto;
         }
 
         .e h2 {
-            font-size: 82px;
+            font-size: 72px;
             font-weight: 900;
             background: linear-gradient(135deg, #ff6b35 0%, #ff8856 50%, #ff6b35 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 48px;
-            letter-spacing: -2px;
+            margin-bottom: 40px;
+            letter-spacing: -1.5px;
             line-height: 1.1;
         }
 
@@ -146,22 +146,103 @@
             display: flex;
             align-items: center;
             background: white;
-            border: 3px solid #ffb380;
+            border: 4px solid #ff8c5a;
             border-radius: 60px;
             padding: 10px 10px 10px 32px;
-            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15);
+            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.25);
             transition: all 0.4s ease;
         }
 
-        .f:hover {
-            border-color: #ff8c5a;
-            box-shadow: 0 16px 48px rgba(255, 107, 53, 0.22);
-            transform: translateY(-2px);
+        .f::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 60px;
+            background: linear-gradient(90deg, 
+                #ff6b35 0%, 
+                #ffc107 25%, 
+                #ff8c5a 50%, 
+                #ffc107 75%, 
+                #ff6b35 100%);
+            background-size: 200% 100%;
+            opacity: 0;
+            animation: borderFlow 4s linear infinite;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+
+        .f::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: -25px;
+            right: -25px;
+            bottom: -25px;
+            border-radius: 70px;
+            background: linear-gradient(90deg,
+                rgba(255, 107, 53, 0.4) 0%,
+                rgba(255, 193, 7, 0.4) 25%,
+                rgba(255, 140, 90, 0.4) 50%,
+                rgba(255, 193, 7, 0.4) 75%,
+                rgba(255, 107, 53, 0.4) 100%);
+            background-size: 200% 100%;
+            filter: blur(25px);
+            opacity: 0.7;
+            z-index: -2;
+            animation: fogFlow 5s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes borderFlow {
+            0% { 
+                background-position: 0% 0%;
+            }
+            100% { 
+                background-position: 200% 0%;
+            }
+        }
+
+        @keyframes fogFlow {
+            0% { 
+                background-position: 0% 0%;
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% { 
+                background-position: 200% 0%;
+                opacity: 0.7;
+            }
+        }
+
+
+        .f:hover::before {
+            opacity: 1;
+        }
+
+        .f:hover::after {
+            opacity: 1;
+            filter: blur(30px);
         }
 
         .f:focus-within {
             border-color: #ff6b35;
-            box-shadow: 0 16px 48px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.45);
+        }
+
+        .f:focus-within::before {
+            opacity: 1;
+            animation: borderFlow 2.5s linear infinite;
+        }
+
+        .f:focus-within::after {
+            opacity: 1;
+            filter: blur(35px);
+            animation: fogFlow 3s linear infinite;
         }
 
         .f input {
@@ -171,6 +252,8 @@
             font-size: 17px;
             color: #2a2a2a;
             background: transparent;
+            position: relative;
+            z-index: 1;
         }
 
         .f input::placeholder {
@@ -188,13 +271,37 @@
             cursor: pointer;
             transition: all 0.35s ease;
             box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .f button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
 
         .f button:hover {
             transform: translateX(4px);
-            box-shadow: 0 8px 24px rgba(255, 193, 7, 0.5);
+            box-shadow: 0 8px 24px rgba(255, 193, 7, 0.6);
         }
 
+        .f button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .f button:active {
+            transform: translateX(2px) scale(0.98);
+        }
         .g {
             max-width: 1200px;
             margin: 80px auto;
@@ -1191,6 +1298,33 @@
                 text-align: center;
             }
         }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff8c5a 0%, #ff6b35 100%);
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ffc107 0%, #ff8c5a 100%);
+            border-color: #e0e0e0;
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(180deg, #ff6b35 0%, #ff5722 100%);
+        }
     </style>
 </head>
 <body>
@@ -1222,11 +1356,11 @@
             <div class="i">
                 <button class="j active">
                     <i data-lucide="monitor-play"></i>
-                    <span>Run ads with AI</span>
+                    <span>Make clips with AI</span>
                 </button>
                 <button class="j">
                     <i data-lucide="user-plus"></i>
-                    <span>Find leads with AI</span>
+                    <span>Find clients with AI</span>
                 </button>
                 <button class="j">
                     <i data-lucide="send"></i>
@@ -1251,23 +1385,22 @@
         <div class="n">
             <h2>What is Solis AI?</h2>
             <p>Solis AI is your all-in-one AI companion for creating videos and launching businesses effortlessly. We combine advanced artificial intelligence with a user-friendly interface to help you generate high-quality content, produce engaging videos, and bring your business ideas to life faster and easier than ever before.</p>
-            <p>From generating professional videos to turning your business ideas into reality, Solis AI handles the heavy lifting so you can focus on creating, innovating, and launching your next big project.</p>
-            
+            <p>From generating professional videos to turning your business ideas into reality, Solis AI handles the heavy lifting so you can focus on creating, innovating, and launching your next big project.</p>            
             <div class="o">
                 <div class="p">
                     <i data-lucide="zap"></i>
-                    <h3>Lightning Fast</h3>
-                    <p>Get campaigns up and running in minutes, not days. Our AI optimizes in real-time for maximum results.</p>
+                    <h3>Instant Automation</h3>
+                    <p>Launch AI-powered workflows and viral content instantly. Solis AI handles repetitive tasks so you can focus on creating.</p>
                 </div>
                 <div class="p">
                     <i data-lucide="brain"></i>
-                    <h3>Smart Automation</h3>
-                    <p>Intelligent algorithms learn from your data to make better decisions and improve performance continuously.</p>
+                    <h3>Adaptive Intelligence</h3>
+                    <p>Our smart algorithms learn from your data and audience behavior to optimize campaigns, videos, and automation continuously.</p>
                 </div>
                 <div class="p">
                     <i data-lucide="trending-up"></i>
-                    <h3>Proven Results</h3>
-                    <p>Join thousands of businesses that have increased their ROI by an average of 300% with Solis AI.</p>
+                    <h3>Maximized Impact</h3>
+                    <p>Grow your projects faster with Solis AI. boost engagement, automate business processes, and achieve results with precision.</p>
                 </div>
             </div>
         </div>
@@ -1279,6 +1412,21 @@
             <p>Power your growth with Solis AI. Each plan grants access to a Luminous model, the smarter way to automate your business.</p>
         </div>
         <div class="s">
+            <div class="t">
+                <h4><i data-lucide="rocket"></i> Orbit</h4>
+                <p class="u">$0</p>
+                <p class="v">Model: Luminous 1o</p>
+                <ul class="w">
+                    <li><i data-lucide="check-circle"></i> Basic automation tools</li>
+                    <li><i data-lucide="check-circle"></i> Standard AI insights</li>
+                    <li><i data-lucide="check-circle"></i> 2 video generations/month</li>
+                    <li><i data-lucide="x-circle"></i> Email support</li>
+                    <li><i data-lucide="x-circle"></i> No advanced analytics</li>
+                    <li><i data-lucide="x-circle"></i> No API access</li>
+                    <li><i data-lucide="x-circle"></i> No team features</li>
+                </ul>
+                <button class="x">Current Plan</button>
+            </div>
             <div class="t">
                 <h4><i data-lucide="rocket"></i> Orbit X</h4>
                 <p class="u">$25</p>
@@ -1482,9 +1630,9 @@
             </div>
             <div class="ar">
                 <h3>Company</h3>
-                <a href="#">About Solis AI</a>
                 <a href="#">Careers</a>
                 <a href="#">Our Goals</a>
+                <a href="#">Previous Projects</a>
             </div>
             <div class="ar">
                 <h3>Resources</h3>
