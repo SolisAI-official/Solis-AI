@@ -5,1349 +5,1524 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solis - Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(160deg, #fff5f0 0%, #fef9f5 40%, #f5f3ff 100%);
-            min-height: 100vh;
-            color: #1a1a1a;
-        }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(160deg, #fff5f0 0%, #fef9f5 40%, #f5f3ff 100%);
+        min-height: 100vh;
+        color: #1a1a1a;
+    }
 
-        .a {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 60px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 140, 90, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
 
-        .a h1 {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8c5a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+        margin: 5px;
+    }
 
-        .b {
-            display: flex;
-            gap: 28px;
-        }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #ff8c5a 0%, #ff6b35 100%);
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+        transition: all 0.3s ease;
+    }
 
-        .b button {
-            background: none;
-            border: none;
-            color: #444;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            position: relative;
-            padding: 8px 4px;
-        }
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #ffc107 0%, #ff8c5a 100%);
+        border-color: #e0e0e0;
+    }
 
-        .b button:hover {
-            color: #ff6b35;
-        }
+    ::-webkit-scrollbar-thumb:active {
+        background: linear-gradient(180deg, #ff6b35 0%, #ff5722 100%);
+    }
 
-        .b button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ff6b35;
-            transition: width 0.3s ease;
-        }
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #ff6b35;
+        cursor: pointer;
+        padding: 10px;
+    }
 
-        .b button:hover::after {
-            width: 100%;
-        }
+    .a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 60px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 140, 90, 0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-        .c {
-            display: flex;
-            gap: 12px;
-        }
+    .a h1 {
+        font-size: 26px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8c5a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+    }
 
-        .c button:first-child {
-            background: transparent;
-            border: 2px solid #ddd;
-            color: #444;
-            padding: 10px 24px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .b {
+        display: flex;
+        gap: 28px;
+    }
 
-        .c button:first-child:hover {
-            border-color: #ff6b35;
-            color: #ff6b35;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.12);
-        }
+    .b button {
+        background: none;
+        border: none;
+        color: #444;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        position: relative;
+        padding: 8px 4px;
+    }
 
-        .c button:last-child {
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            border: none;
-            color: #1a1a1a;
-            padding: 12px 28px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
-        }
+    .b button:hover {
+        color: #ff6b35;
+    }
 
-        .c button:last-child:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
-        }
+    .b button::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #ff6b35;
+        transition: width 0.3s ease;
+    }
 
-        .d {
-            text-align: center;
-            padding: 100px 40px 80px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    .b button:hover::after {
+        width: 100%;
+    }
 
-        .e h2 {
-            font-size: 72px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 50%, #ff6b35 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 40px;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
-        }
+    .c {
+        display: flex;
+        gap: 12px;
+    }
 
-        .f {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: white;
-            border: 4px solid #ff8c5a;
-            border-radius: 60px;
-            padding: 10px 10px 10px 32px;
-            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.25);
-            transition: all 0.4s ease;
-        }
+    .c button:first-child {
+        background: transparent;
+        border: 2px solid #ddd;
+        color: #444;
+        padding: 10px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-        .f::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 60px;
-            background: linear-gradient(90deg, 
-                #ff6b35 0%, 
-                #ffc107 25%, 
-                #ff8c5a 50%, 
-                #ffc107 75%, 
+    .c button:first-child:hover {
+        border-color: #ff6b35;
+        color: #ff6b35;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.12);
+    }
+
+    .c button:last-child {
+        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+        border: none;
+        color: #1a1a1a;
+        padding: 12px 28px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
+    }
+
+    .c button:last-child:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+    }
+
+    .language-selector-container {
+        position: relative;
+        display: inline-block;
+        margin-left: 1px;
+        touch-action: manipulation;
+    }
+
+    .translate {
+        width: 45px;
+        height: 45px;
+        padding: 0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff4e6;
+        border: 1px solid #ffb74d;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .translate:hover,
+    .translate:active {
+        background-color: #ffe0b2;
+        transform: scale(1.05);
+    }
+
+    .translate i {
+        width: 22px;
+        height: 22px;
+        stroke: #ff6f00;
+        stroke-width: 2.5;
+    }
+
+    .language-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 10px;
+        background-color: #fffaf0;
+        border: 1px solid #ffb74d;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        padding: 5px 0;
+        min-width: 160px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .language-dropdown.active {
+        display: flex;
+    }
+
+    .lang-option {
+        width: 100%;
+        padding: 12px 15px;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        font-size: 15px;
+        color: #5d4037;
+        transition: background-color 0.15s ease, font-weight 0.15s ease, color 0.15s ease;
+    }
+
+    .lang-option:hover,
+    .lang-option:active {
+        background-color: #ffe0b2;
+    }
+
+    .lang-option.selected {
+        background-color: #ffcc80;
+        font-weight: bold;
+        color: #e65100;
+    }
+
+    .d {
+        text-align: center;
+        padding: 100px 40px 80px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .e h2 {
+        font-size: 72px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 50%, #ff6b35 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 40px;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+    }
+
+    .f {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: white;
+        border: 4px solid #ff8c5a;
+        border-radius: 60px;
+        padding: 10px 10px 10px 32px;
+        box-shadow: 0 12px 40px rgba(255, 107, 53, 0.25);
+        transition: all 0.4s ease;
+    }
+
+    .f::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border-radius: 60px;
+        background: linear-gradient(90deg,
+                #ff6b35 0%,
+                #ffc107 25%,
+                #ff8c5a 50%,
+                #ffc107 75%,
                 #ff6b35 100%);
-            background-size: 200% 100%;
-            opacity: 0;
-            animation: borderFlow 4s linear infinite;
-            z-index: -1;
-            transition: opacity 0.4s ease;
-        }
+        background-size: 200% 100%;
+        opacity: 0;
+        animation: borderFlow 4s linear infinite;
+        z-index: -1;
+        transition: opacity 0.4s ease;
+    }
 
-        .f::after {
-            content: '';
-            position: absolute;
-            top: -25px;
-            left: -25px;
-            right: -25px;
-            bottom: -25px;
-            border-radius: 70px;
-            background: linear-gradient(90deg,
+    .f::after {
+        content: '';
+        position: absolute;
+        top: -25px;
+        left: -25px;
+        right: -25px;
+        bottom: -25px;
+        border-radius: 70px;
+        background: linear-gradient(90deg,
                 rgba(255, 107, 53, 0.4) 0%,
                 rgba(255, 193, 7, 0.4) 25%,
                 rgba(255, 140, 90, 0.4) 50%,
                 rgba(255, 193, 7, 0.4) 75%,
                 rgba(255, 107, 53, 0.4) 100%);
-            background-size: 200% 100%;
-            filter: blur(25px);
+        background-size: 200% 100%;
+        filter: blur(25px);
+        opacity: 0.7;
+        z-index: -2;
+        animation: fogFlow 5s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes borderFlow {
+        0% {
+            background-position: 0% 0%;
+        }
+
+        100% {
+            background-position: 200% 0%;
+        }
+    }
+
+    @keyframes fogFlow {
+        0% {
+            background-position: 0% 0%;
             opacity: 0.7;
-            z-index: -2;
-            animation: fogFlow 5s linear infinite;
-            pointer-events: none;
         }
 
-        @keyframes borderFlow {
-            0% { 
-                background-position: 0% 0%;
-            }
-            100% { 
-                background-position: 200% 0%;
-            }
+        50% {
+            opacity: 0.9;
         }
 
-        @keyframes fogFlow {
-            0% { 
-                background-position: 0% 0%;
-                opacity: 0.7;
-            }
-            50% {
-                opacity: 0.9;
-            }
-            100% { 
-                background-position: 200% 0%;
-                opacity: 0.7;
-            }
+        100% {
+            background-position: 200% 0%;
+            opacity: 0.7;
         }
+    }
 
 
-        .f:hover::before {
-            opacity: 1;
+    .f:hover::before {
+        opacity: 1;
+    }
+
+    .f:hover::after {
+        opacity: 1;
+        filter: blur(30px);
+    }
+
+    .f:focus-within {
+        border-color: #ff6b35;
+        box-shadow: 0 20px 60px rgba(255, 107, 53, 0.45);
+    }
+
+    .f:focus-within::before {
+        opacity: 1;
+        animation: borderFlow 2.5s linear infinite;
+    }
+
+    .f:focus-within::after {
+        opacity: 1;
+        filter: blur(35px);
+        animation: fogFlow 3s linear infinite;
+    }
+
+    .f input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 17px;
+        color: #2a2a2a;
+        background: transparent;
+        position: relative;
+        z-index: 1;
+    }
+
+    .f input::placeholder {
+        color: #aaa;
+    }
+
+    .f button {
+        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+        border: none;
+        color: #1a1a1a;
+        padding: 16px 38px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .f button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .f button:hover {
+        transform: translateX(4px);
+        box-shadow: 0 8px 24px rgba(255, 193, 7, 0.6);
+    }
+
+    .f button:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .f button:active {
+        transform: translateX(2px) scale(0.98);
+    }
+
+    .g {
+        max-width: 1200px;
+        margin: 80px auto;
+        padding: 0 40px;
+    }
+
+    .h {
+        background: white;
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        margin-bottom: 40px;
+    }
+
+    .i {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .j {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 20px 26px;
+        background: #fafafa;
+        border: 2px solid transparent;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        font-weight: 600;
+        color: #4a4a4a;
+    }
+
+    .j i {
+        font-size: 22px;
+        color: #999;
+        transition: all 0.3s ease;
+    }
+
+    .j:hover {
+        background: #fff;
+        border-color: #ffe0cc;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.1);
+    }
+
+    .j:hover i {
+        color: #ff6b35;
+        transform: scale(1.15);
+    }
+
+    .j.active {
+        background: linear-gradient(135deg, #fff5f0 0%, #ffe8d9 100%);
+        border-color: #ff9f70;
+        box-shadow: 0 4px 16px rgba(255, 107, 53, 0.12);
+    }
+
+    .j.active i {
+        color: #ff6b35;
+    }
+
+    .j.active span {
+        color: #2a2a2a;
+    }
+
+    .k {
+        width: 100%;
+        height: 320px;
+        background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
+        border-radius: 20px;
+        border: 2px solid #eee;
+    }
+
+    .l {
+        text-align: center;
+    }
+
+    .l button {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        color: #2a2a2a;
+        padding: 16px 32px;
+        border-radius: 40px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .l button:hover {
+        border-color: #ff6b35;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(255, 107, 53, 0.15);
+    }
+
+    .l button i {
+        font-size: 20px;
+        color: #ff6b35;
+    }
+
+    .m {
+        max-width: 1200px;
+        margin: 100px auto;
+        padding: 0 40px;
+    }
+
+    .n {
+        background: white;
+        border-radius: 32px;
+        padding: 80px 60px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .n h2 {
+        font-size: 52px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 32px;
+        letter-spacing: -1px;
+    }
+
+    .n p {
+        font-size: 20px;
+        line-height: 1.8;
+        color: #555;
+        max-width: 900px;
+        margin: 0 auto 40px;
+    }
+
+    .o {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        margin-top: 60px;
+    }
+
+    .p {
+        background: linear-gradient(135deg, #fff5f0 0%, #fef9f5 100%);
+        border-radius: 20px;
+        padding: 40px 32px;
+        text-align: center;
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+
+    .p:hover {
+        transform: translateY(-8px);
+        border-color: #ffb380;
+        box-shadow: 0 12px 32px rgba(255, 107, 53, 0.15);
+    }
+
+    .p i {
+        font-size: 48px;
+        color: #ff6b35;
+        margin-bottom: 24px;
+    }
+
+    .p h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 16px;
+    }
+
+    .p p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #666;
+        margin: 0;
+    }
+
+    .q {
+        max-width: 1200px;
+        margin: 100px auto;
+        padding: 0 40px;
+    }
+
+    .r {
+        text-align: center;
+        margin-bottom: 70px;
+    }
+
+    .r h3 {
+        font-size: 52px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+    }
+
+    .r p {
+        font-size: 20px;
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .s {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        margin-bottom: 40px;
+    }
+
+    .t {
+        background: white;
+        border-radius: 28px;
+        padding: 48px 36px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .t::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #ff6b35 0%, #ff8856 100%);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    .t:hover::before {
+        transform: scaleX(1);
+    }
+
+    .t:hover {
+        transform: translateY(-12px);
+        border-color: #ffb380;
+        box-shadow: 0 20px 48px rgba(255, 107, 53, 0.15);
+    }
+
+    .t.featured {
+        background: linear-gradient(135deg, #fff5f0 0%, #ffe8d9 100%);
+        border-color: #ffb380;
+    }
+
+    .t.featured::before {
+        transform: scaleX(1);
+    }
+
+    .t h4 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .t h4 i {
+        color: #ff6b35;
+    }
+
+    .u {
+        font-size: 48px;
+        font-weight: 900;
+        color: #ff6b35;
+        margin-bottom: 12px;
+    }
+
+    .v {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 28px;
+        padding-bottom: 28px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .w {
+        list-style: none;
+        margin-bottom: 32px;
+    }
+
+    .w li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 0;
+        font-size: 15px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .w li i {
+        font-size: 18px;
+        margin-top: 2px;
+    }
+
+    .w li i[data-lucide="check-circle"] {
+        color: #4caf50;
+    }
+
+    .w li i[data-lucide="x-circle"] {
+        color: #ddd;
+    }
+
+    .x {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+    }
+
+    .x:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(255, 107, 53, 0.4);
+    }
+
+    .t.featured .x {
+        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+        color: #1a1a1a;
+        box-shadow: 0 8px 24px rgba(255, 193, 7, 0.4);
+    }
+
+    .t.featured .x:hover {
+        box-shadow: 0 12px 32px rgba(255, 193, 7, 0.5);
+    }
+
+    .y {
+        max-width: 1200px;
+        margin: 120px auto;
+        padding: 0 40px;
+    }
+
+    .z {
+        background: white;
+        border-radius: 32px;
+        padding: 80px 60px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    .aa {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .aa h2 {
+        font-size: 52px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+    }
+
+    .aa p {
+        font-size: 20px;
+        color: #666;
+    }
+
+    .ab {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 48px;
+    }
+
+    .ac {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+    }
+
+    .ad {
+        min-width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #fff5f0 0%, #ffe8d9 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .ad i {
+        font-size: 36px;
+        color: #ff6b35;
+    }
+
+    .ae {
+        flex: 1;
+    }
+
+    .ae h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+    }
+
+    .ae p {
+        font-size: 16px;
+        line-height: 1.7;
+        color: #666;
+        margin: 0;
+    }
+
+    .af {
+        max-width: 1200px;
+        margin: 100px auto;
+        padding: 0 40px;
+    }
+
+    .ag {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .ag h2 {
+        font-size: 52px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+    }
+
+    .ag p {
+        font-size: 20px;
+        color: #666;
+    }
+
+    .ah {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 40px;
+    }
+
+    .ai {
+        background: white;
+        border-radius: 24px;
+        padding: 40px 32px;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+    }
+
+    .ai:hover {
+        transform: translateY(-10px);
+        border-color: #ffb380;
+        box-shadow: 0 16px 48px rgba(255, 107, 53, 0.15);
+    }
+
+    .aj {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 48px;
+        font-weight: 700;
+        margin: 0 auto 24px;
+        box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+    }
+
+    .ai h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+    }
+
+    .ak {
+        font-size: 16px;
+        color: #ff6b35;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    .al {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .am {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .am a {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .am a:hover {
+        background: #ff6b35;
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    .am i {
+        font-size: 18px;
+    }
+
+    .an {
+        max-width: 1000px;
+        margin: 120px auto;
+        padding: 0 40px;
+    }
+
+    .ao {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        border-radius: 32px;
+        padding: 80px 60px;
+        text-align: center;
+        box-shadow: 0 16px 56px rgba(255, 107, 53, 0.3);
+    }
+
+    .ao h2 {
+        font-size: 48px;
+        font-weight: 900;
+        color: white;
+        margin-bottom: 24px;
+        letter-spacing: -1px;
+    }
+
+    .ao p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: white;
+    }
+
+    .ao p a {
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 3px;
+        transition: all 0.3s ease;
+        border-bottom: 2px solid white;
+    }
+
+    .ao p a:hover {
+        opacity: 0.85;
+        border-bottom-color: transparent;
+    }
+
+    .ap {
+        background: white;
+        border: none;
+        color: #ff6b35;
+        padding: 20px 48px;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        text-decoration: none;
+        margin-top: 24px;
+    }
+
+    .ap:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    footer {
+        margin-top: 120px;
+        padding: 60px 40px 40px;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 140, 90, 0.1);
+    }
+
+    .aq {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .ar h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: #1a1a1a;
+    }
+
+    .ar a {
+        display: block;
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .ar a:hover {
+        color: #ff6b35;
+        transform: translateX(3px);
+    }
+
+    .as {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 30px;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .as p {
+        color: #999;
+        font-size: 14px;
+    }
+
+    .at {
+        display: flex;
+        gap: 16px;
+    }
+
+    .at a {
+        color: #999;
+        font-size: 20px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .at a:hover {
+        color: #ff6b35;
+        transform: translateY(-2px);
+    }
+
+    .au {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+    }
+
+    .au.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .av {
+        background: linear-gradient(160deg, #ffffff 0%, #fff5f0 100%);
+        border-radius: 32px;
+        padding: 50px;
+        box-shadow: 0 25px 80px rgba(255, 107, 53, 0.3);
+        max-width: 1000px;
+        width: 90%;
+        transform: scale(0.85) translateY(20px);
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 3px solid rgba(255, 179, 128, 0.3);
+        position: relative;
+    }
+
+    .au.active .av {
+        transform: scale(1) translateY(0);
+    }
+
+    .aw {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        font-size: 28px;
+        font-weight: 300;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+        box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+    }
+
+    .aw:hover {
+        background: linear-gradient(135deg, #ff8856 0%, #ffa070 100%);
+        transform: rotate(90deg) scale(1.1);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+    }
+
+    .au h5 {
+        font-size: 32px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 28px;
+        text-align: center;
+        letter-spacing: -0.5px;
+    }
+
+    .au iframe {
+        width: 100%;
+        height: 520px;
+        border-radius: 20px;
+        border: 3px solid #ffb380;
+        box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15);
+        margin-bottom: 24px;
+    }
+
+    .ax {
+        display: block;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .ax button {
+        background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
+        border: none;
+        color: white;
+        padding: 16px 40px;
+        border-radius: 50px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(255, 107, 53, 0.35);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .ax button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(255, 107, 53, 0.45);
+        background: linear-gradient(135deg, #ff8856 0%, #ffa070 100%);
+    }
+
+    .ax button::before {
+        content: '▶';
+        font-size: 14px;
+    }
+
+    @media (max-width: 1024px) {
+        .g, .m, .q, .y, .af, .an {
+            padding: 0 30px;
         }
 
-        .f:hover::after {
-            opacity: 1;
-            filter: blur(30px);
+        .e h2 {
+            font-size: 64px;
         }
 
-        .f:focus-within {
-            border-color: #ff6b35;
-            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.45);
-        }
-
-        .f:focus-within::before {
-            opacity: 1;
-            animation: borderFlow 2.5s linear infinite;
-        }
-
-        .f:focus-within::after {
-            opacity: 1;
-            filter: blur(35px);
-            animation: fogFlow 3s linear infinite;
-        }
-
-        .f input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 17px;
-            color: #2a2a2a;
-            background: transparent;
-            position: relative;
-            z-index: 1;
-        }
-
-        .f input::placeholder {
-            color: #aaa;
-        }
-
-        .f button {
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            border: none;
-            color: #1a1a1a;
-            padding: 16px 38px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.35s ease;
-            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .f button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .f button:hover {
-            transform: translateX(4px);
-            box-shadow: 0 8px 24px rgba(255, 193, 7, 0.6);
-        }
-
-        .f button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .f button:active {
-            transform: translateX(2px) scale(0.98);
-        }
-        .g {
-            max-width: 1200px;
-            margin: 80px auto;
-            padding: 0 40px;
-        }
-
-        .h {
-            background: white;
-            border-radius: 24px;
-            padding: 48px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            margin-bottom: 40px;
-        }
-
-        .i {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .j {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 20px 26px;
-            background: #fafafa;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 15px;
-            font-weight: 600;
-            color: #4a4a4a;
-        }
-
-        .j i {
-            font-size: 22px;
-            color: #999;
-            transition: all 0.3s ease;
-        }
-
-        .j:hover {
-            background: #fff;
-            border-color: #ffe0cc;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.1);
-        }
-
-        .j:hover i {
-            color: #ff6b35;
-            transform: scale(1.15);
-        }
-
-        .j.active {
-            background: linear-gradient(135deg, #fff5f0 0%, #ffe8d9 100%);
-            border-color: #ff9f70;
-            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.12);
-        }
-
-        .j.active i {
-            color: #ff6b35;
-        }
-
-        .j.active span {
-            color: #2a2a2a;
-        }
-
-        .k {
-            width: 100%;
-            height: 320px;
-            background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
-            border-radius: 20px;
-            border: 2px solid #eee;
-        }
-
-        .l {
-            text-align: center;
-        }
-
-        .l button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            color: #2a2a2a;
-            padding: 16px 32px;
-            border-radius: 40px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.35s ease;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-        }
-
-        .l button:hover {
-            border-color: #ff6b35;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.15);
-        }
-
-        .l button i {
-            font-size: 20px;
-            color: #ff6b35;
-        }
-
-        .m {
-            max-width: 1200px;
-            margin: 100px auto;
-            padding: 0 40px;
-        }
-
-        .n {
-            background: white;
-            border-radius: 32px;
-            padding: 80px 60px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
-            text-align: center;
-        }
-
-        .n h2 {
-            font-size: 52px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 32px;
-            letter-spacing: -1px;
-        }
-
-        .n p {
-            font-size: 20px;
-            line-height: 1.8;
-            color: #555;
-            max-width: 900px;
-            margin: 0 auto 40px;
-        }
-
-        .o {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            margin-top: 60px;
-        }
-
-        .p {
-            background: linear-gradient(135deg, #fff5f0 0%, #fef9f5 100%);
-            border-radius: 20px;
-            padding: 40px 32px;
-            text-align: center;
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
-        }
-
-        .p:hover {
-            transform: translateY(-8px);
-            border-color: #ffb380;
-            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.15);
-        }
-
-        .p i {
+        .n h2, .r h3, .aa h2, .ag h2 {
             font-size: 48px;
-            color: #ff6b35;
-            margin-bottom: 24px;
-        }
-
-        .p h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 16px;
-        }
-
-        .p p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #666;
-            margin: 0;
-        }
-
-        .q {
-            max-width: 1200px;
-            margin: 100px auto;
-            padding: 0 40px;
-        }
-
-        .r {
-            text-align: center;
-            margin-bottom: 70px;
-        }
-
-        .r h3 {
-            font-size: 52px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        .r p {
-            font-size: 20px;
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .s {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            margin-bottom: 40px;
-        }
-
-        .t {
-            background: white;
-            border-radius: 28px;
-            padding: 48px 36px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .t::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #ff6b35 0%, #ff8856 100%);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .t:hover::before {
-            transform: scaleX(1);
-        }
-
-        .t:hover {
-            transform: translateY(-12px);
-            border-color: #ffb380;
-            box-shadow: 0 20px 48px rgba(255, 107, 53, 0.15);
-        }
-
-        .t.featured {
-            background: linear-gradient(135deg, #fff5f0 0%, #ffe8d9 100%);
-            border-color: #ffb380;
-        }
-
-        .t.featured::before {
-            transform: scaleX(1);
-        }
-
-        .t h4 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .t h4 i {
-            color: #ff6b35;
-        }
-
-        .u {
-            font-size: 48px;
-            font-weight: 900;
-            color: #ff6b35;
-            margin-bottom: 12px;
-        }
-
-        .v {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 28px;
-            padding-bottom: 28px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .w {
-            list-style: none;
-            margin-bottom: 32px;
-        }
-
-        .w li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            font-size: 15px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .w li i {
-            font-size: 18px;
-            margin-top: 2px;
-        }
-
-        .w li i[data-lucide="check-circle"] {
-            color: #4caf50;
-        }
-
-        .w li i[data-lucide="x-circle"] {
-            color: #ddd;
-        }
-
-        .x {
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            border: none;
-            color: white;
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
-        }
-
-        .x:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.4);
-        }
-
-        .t.featured .x {
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            color: #1a1a1a;
-            box-shadow: 0 8px 24px rgba(255, 193, 7, 0.4);
-        }
-
-        .t.featured .x:hover {
-            box-shadow: 0 12px 32px rgba(255, 193, 7, 0.5);
-        }
-
-        .y {
-            max-width: 1200px;
-            margin: 120px auto;
-            padding: 0 40px;
         }
 
         .z {
-            background: white;
-            border-radius: 32px;
-            padding: 80px 60px;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
-        }
-
-        .aa {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .aa h2 {
-            font-size: 52px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        .aa p {
-            font-size: 20px;
-            color: #666;
-        }
-
-        .ab {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 48px;
-        }
-
-        .ac {
-            display: flex;
-            gap: 24px;
-            align-items: flex-start;
-        }
-
-        .ad {
-            min-width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #fff5f0 0%, #ffe8d9 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .ad i {
-            font-size: 36px;
-            color: #ff6b35;
-        }
-
-        .ae {
-            flex: 1;
-        }
-
-        .ae h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 12px;
-        }
-
-        .ae p {
-            font-size: 16px;
-            line-height: 1.7;
-            color: #666;
-            margin: 0;
-        }
-
-        .af {
-            max-width: 1200px;
-            margin: 100px auto;
-            padding: 0 40px;
-        }
-
-        .ag {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .ag h2 {
-            font-size: 52px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        .ag p {
-            font-size: 20px;
-            color: #666;
-        }
-
-        .ah {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 40px;
-        }
-
-        .ai {
-            background: white;
-            border-radius: 24px;
-            padding: 40px 32px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
-        }
-
-        .ai:hover {
-            transform: translateY(-10px);
-            border-color: #ffb380;
-            box-shadow: 0 16px 48px rgba(255, 107, 53, 0.15);
-        }
-
-        .aj {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 48px;
-            font-weight: 700;
-            margin: 0 auto 24px;
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
-        }
-
-        .ai h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .ak {
-            font-size: 16px;
-            color: #ff6b35;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .al {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .am {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .am a {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .am a:hover {
-            background: #ff6b35;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .am i {
-            font-size: 18px;
-        }
-
-        .an {
-            max-width: 1000px;
-            margin: 120px auto;
-            padding: 0 40px;
+            padding: 60px 40px;
         }
 
         .ao {
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            border-radius: 32px;
-            padding: 80px 60px;
-            text-align: center;
-            box-shadow: 0 16px 56px rgba(255, 107, 53, 0.3);
+            padding: 60px 40px;
         }
+    }
 
-        .ao h2 {
-            font-size: 48px;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
-        }
-
-        .ao p a {
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            position: relative;
-            padding-bottom: 3px;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid white;
-        }
-
-        .ao p a:hover {
-            opacity: 0.85;
-            border-bottom-color: transparent;
-        }
-
-        .ap {
-            background: white;
-            border: none;
-            color: #ff6b35;
-            padding: 20px 48px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            display: inline-block;
-            text-decoration: none;
-            margin-top: 24px;
-        }
-
-        .ap:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        footer {
-            margin-top: 120px;
-            padding: 60px 40px 40px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 140, 90, 0.1);
-        }
-
-        .aq {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .ar h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #1a1a1a;
-        }
-
-        .ar a {
-            display: block;
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 10px;
-            transition: all 0.2s ease;
-        }
-
-        .ar a:hover {
-            color: #ff6b35;
-            transform: translateX(3px);
-        }
-
-        .as {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 30px;
-            border-top: 1px solid rgba(0, 0, 0, 0.06);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    @media (max-width: 768px) {
+        .a {
+            padding: 15px 20px;
             flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .as p {
-            color: #999;
-            font-size: 14px;
-        }
-
-        .at {
-            display: flex;
-            gap: 16px;
-        }
-
-        .at a {
-            color: #999;
-            font-size: 20px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .at a:hover {
-            color: #ff6b35;
-            transform: translateY(-2px);
-        }
-        
-        .au {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-        }
-
-        .au.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .av {
-            background: linear-gradient(160deg, #ffffff 0%, #fff5f0 100%);
-            border-radius: 32px;
-            padding: 50px;
-            box-shadow: 0 25px 80px rgba(255, 107, 53, 0.3);
-            max-width: 1000px;
-            width: 90%;
-            transform: scale(0.85) translateY(20px);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 3px solid rgba(255, 179, 128, 0.3);
-            position: relative;
-        }
-
-        .au.active .av {
-            transform: scale(1) translateY(0);
-        }
-
-        .aw {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 28px;
-            font-weight: 300;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 10;
-            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
-        }
-
-        .aw:hover {
-            background: linear-gradient(135deg, #ff8856 0%, #ffa070 100%);
-            transform: rotate(90deg) scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
-        }
-
-        .au h5 {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 28px;
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-
-        .au iframe {
-            width: 100%;
-            height: 520px;
-            border-radius: 20px;
-            border: 3px solid #ffb380;
-            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15);
-            margin-bottom: 24px;
-        }
-
-        .ax {
-            display: block;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .ax button {
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8856 100%);
-            border: none;
-            color: white;
-            padding: 16px 40px;
-            border-radius: 50px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.35);
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 10px;
         }
 
-        .ax button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.45);
-            background: linear-gradient(135deg, #ff8856 0%, #ffa070 100%);
+        .menu-toggle {
+            display: block;
         }
 
-        .ax button::before {
-            content: '▶';
-            font-size: 14px;
+        .b {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            width: 100%;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.98);
+            position: absolute;
+            top: 70px;
+            left: 0;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 140, 90, 0.1);
         }
 
-        @media (max-width: 768px) {
-            .av {
-                width: 95%;
-                padding: 32px 24px;
-                max-height: 92vh;
-                overflow-y: auto;
-            }
-            
-            .au h5 {
-                font-size: 24px;
-                margin-bottom: 20px;
-                padding-right: 40px;
-            }
-            
-            .au iframe {
-                height: 280px;
-                margin-bottom: 20px;
-            }
-            
-            .aw {
-                top: 15px;
-                right: 15px;
-                width: 38px;
-                height: 38px;
-                font-size: 24px;
-            }
-
-            .ax button {
-                padding: 14px 32px;
-                font-size: 16px;
-            }
+        .b button {
+            padding: 12px 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #1a1a1a;
         }
 
-        @media (max-width: 480px) {
-            .au iframe {
-                height: 220px;
-            }
-            
-            .au h5 {
-                font-size: 20px;
-            }
-        }
-        @media (max-width: 768px) {
-            .a {
-                padding: 18px 24px;
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-
-            .a h1 {
-                font-size: 24px;
-            }
-
-            .b {
-                gap: 20px;
-                order: 3;
-                width: 100%;
-                justify-content: center;
-                display: none;
-            }
-
-            .c {
-                flex-wrap: wrap;
-            }
-
-            .c button {
-                font-size: 14px;
-                padding: 10px 20px;
-            }
-
-            .d {
-                padding: 80px 24px 60px;
-            }
-
-            .e h2 {
-                font-size: 48px;
-                margin-bottom: 32px;
-            }
-
-            .f {
-                flex-direction: column;
-                padding: 16px;
-                gap: 12px;
-                border-radius: 30px;
-            }
-
-            .f input {
-                text-align: center;
-                padding: 12px 0;
-            }
-
-            .f button {
-                width: 100%;
-            }
-
-            .g {
-                padding: 0 24px;
-            }
-
-            .h {
-                padding: 32px 24px;
-            }
-
-            .i {
-                grid-template-columns: 1fr;
-            }
-
-            .k {
-                height: 240px;
-            }
-
-            .n {
-                padding: 50px 32px;
-            }
-
-            .n h2 {
-                font-size: 36px;
-            }
-
-            .n p {
-                font-size: 17px;
-            }
-
-            .o {
-                grid-template-columns: 1fr;
-            }
-
-            .r h3 {
-                font-size: 36px;
-            }
-
-            .r p {
-                font-size: 17px;
-            }
-
-            .s {
-                grid-template-columns: 1fr;
-            }
-
-            .t {
-                padding: 36px 28px;
-            }
-
-            .z {
-                padding: 50px 32px;
-            }
-
-            .aa h2 {
-                font-size: 36px;
-            }
-
-            .aa p {
-                font-size: 17px;
-            }
-
-            .ab {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .ac {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .ad {
-                margin: 0 auto;
-            }
-
-            .ag h2 {
-                font-size: 36px;
-            }
-
-            .ag p {
-                font-size: 17px;
-            }
-
-            .ah {
-                grid-template-columns: 1fr;
-            }
-
-            .ao {
-                padding: 50px 32px;
-            }
-
-            .ao h2 {
-                font-size: 36px;
-            }
-
-            .ao p {
-                font-size: 17px;
-            }
-
-            .aq {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-
-            .as {
-                flex-direction: column;
-                text-align: center;
-            }
+        .b button:hover {
+            background-color: #ffe0b2;
+            color: #ff6b35;
         }
 
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
+        .b button::after {
+            display: none;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-            margin: 5px;
+        .b.mobile-show {
+            display: flex;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ff8c5a 0%, #ff6b35 100%);
-            border-radius: 10px;
-            border: 2px solid #f1f1f1;
-            transition: all 0.3s ease;
+        .c {
+            gap: 8px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #ffc107 0%, #ff8c5a 100%);
-            border-color: #e0e0e0;
+        .c button {
+            padding: 8px 16px !important;
+            font-size: 13px !important;
         }
 
-        ::-webkit-scrollbar-thumb:active {
-            background: linear-gradient(180deg, #ff6b35 0%, #ff5722 100%);
+
+        .d {
+            padding: 60px 20px 40px;
         }
-    </style>
-</head>
-<body>
+
+        .e h2 {
+            font-size: 44px;
+            margin-bottom: 24px;
+        }
+
+        .f {
+            flex-direction: column;
+            padding: 12px;
+            gap: 10px;
+            border-radius: 40px;
+            border-width: 2px;
+        }
+
+        .f input {
+            text-align: center;
+            padding: 12px 0;
+            font-size: 16px;
+        }
+
+        .f button {
+            width: 100%;
+            padding: 14px 30px;
+            font-size: 16px;
+        }
+
+
+        .g, .m, .q, .y, .af, .an {
+            padding: 0 20px;
+            margin: 60px auto;
+        }
+
+        .h {
+            padding: 30px 20px;
+        }
+        .i {
+            grid-template-columns: 1fr;
+        }
+
+        .k {
+            height: 200px;
+        }
+
+        .n {
+            padding: 40px 20px;
+        }
+
+        .n h2 {
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .n p {
+            font-size: 16px;
+        }
+
+        .o {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .p {
+            padding: 30px 20px;
+        }
+
+        .r {
+            margin-bottom: 40px;
+        }
+        .r h3 {
+            font-size: 32px;
+        }
+        .r p {
+            font-size: 16px;
+        }
+
+        .s {
+            grid-template-columns: 1fr;
+        }
+        .t {
+            padding: 32px 24px;
+        }
+
+        .z {
+            padding: 40px 20px;
+        }
+        .aa h2 {
+            font-size: 32px;
+        }
+        .ab {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        .ac {
+            flex-direction: column;
+            text-align: center;
+        }
+        .ad {
+            margin: 0 auto 10px;
+        }
+
+        .ag h2 {
+            font-size: 32px;
+        }
+        .ah {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .an {
+            margin: 80px auto;
+        }
+        .ao {
+            padding: 40px 20px;
+        }
+        .ao h2 {
+            font-size: 32px;
+        }
+        .ao p {
+            font-size: 16px;
+        }
+        .ap {
+            padding: 16px 32px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+
+        footer {
+            margin-top: 80px;
+            padding: 40px 20px 20px;
+        }
+
+        .aq {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .as {
+            flex-direction: column;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+
+        .av {
+            width: 95%;
+            padding: 30px 20px;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        .au h5 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-right: 40px;
+        }
+
+        .au iframe {
+            height: 250px;
+            margin-bottom: 20px;
+        }
+
+        .aw {
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            font-size: 20px;
+        }
+
+        .ax button {
+            padding: 14px 32px;
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .e h2 {
+            font-size: 36px;
+        }
+
+        .c {
+            flex-direction: column;
+        }
+    }
+</style>
+
     <header class="a">
-        <h1>Solis</h1>
-        <div class="b">
-            <button>What is Solis?</button>
-            <button>How it works</button>
-            <button>Pricing</button>
+        <h1 data-key-ignore>Solis</h1> <div class="b">
+            <button data-key="header-what-is">What is Solis?</button>
+            <button data-key="header-how-it-works">How it works</button>
+            <button data-key="header-pricing">Pricing</button>
         </div>
         <div class="c">
-            <button>Sign In</button>
-            <button>In Progress</button>
+            <button data-key="header-sign-in">Sign In</button>
+            <button data-key="header-in-progress">In Progress</button>
+        </div>
+        <div class="language-selector-container">
+            <button class="translate" id="language-toggle" aria-label="Translate">
+                <i data-lucide="globe"></i>
+            </button>
+            <div class="language-dropdown" id="language-dropdown">
+                <button class="lang-option" data-lang="en">English (American)</button>
+                <button class="lang-option" data-lang="es">Español</button>
+                <button class="lang-option" data-lang="de">Deutsch</button>
+                <button class="lang-option" data-lang="el">Greek</button>
+                <button class="lang-option" data-lang="uk">Українська</button>
+                <button class="lang-option" data-lang="ka">ქართული</button>
+                <button class="lang-option" data-lang="zh">中文</button>
+                <button class="lang-option" data-lang="ru">Русский</button>
+            </div>
         </div>
     </header>
     
     <main class="d">
         <div class="e">
-            <h2>Solis AI</h2>
+            <h2 data-key-ignore>Solis AI</h2>
         </div>
         <div class="f">
-            <input type="text" placeholder="still in progress... not released.">
-            <button>In Progress</button>
+            <input type="text" data-key="main-placeholder" placeholder="still in progress... not released.">
+            <button data-key="header-in-progress">In Progress</button>
         </div>
     </main>
 
@@ -1356,19 +1531,19 @@
             <div class="i">
                 <button class="j active">
                     <i data-lucide="monitor-play"></i>
-                    <span>Make clips with AI</span>
+                    <span data-key="feature-clips">Make clips with AI</span>
                 </button>
                 <button class="j">
                     <i data-lucide="user-plus"></i>
-                    <span>Find clients with AI</span>
+                    <span data-key="feature-clients">Find clients with AI</span>
                 </button>
                 <button class="j">
                     <i data-lucide="send"></i>
-                    <span>Email marketing</span>
+                    <span data-key="feature-email">Email marketing</span>
                 </button>
                 <button class="j">
                     <i data-lucide="shopping-bag"></i>
-                    <span>Run your online business</span>
+                    <span data-key="feature-business">Run your online business</span>
                 </button>
             </div>
             <div class="k"></div>
@@ -1376,31 +1551,31 @@
         <div class="l">
             <button>
                 <i data-lucide="play" id="VideoBtn"></i>
-                <span>Video walkthrough</span>
+                <span data-key="video-walkthrough">Video walkthrough</span>
             </button>
         </div>
     </section>
 
     <section class="m">
         <div class="n">
-            <h2>What is Solis AI?</h2>
-            <p>Solis AI is your all-in-one AI companion for creating videos and launching businesses effortlessly. We combine advanced artificial intelligence with a user-friendly interface to help you generate high-quality content, produce engaging videos, and bring your business ideas to life faster and easier than ever before.</p>
-            <p>From generating professional videos to turning your business ideas into reality, Solis AI handles the heavy lifting so you can focus on creating, innovating, and launching your next big project.</p>            
+            <h2 data-key="section-what-is-title">What is Solis AI?</h2>
+            <p data-key="section-what-is-p1">Solis AI is your all-in-one AI companion for creating videos and launching businesses effortlessly. We combine advanced artificial intelligence with a user-friendly interface to help you generate high-quality content, produce engaging videos, and bring your business ideas to life faster and easier than ever before.</p>
+            <p data-key="section-what-is-p2">From generating professional videos to turning your business ideas into reality, Solis AI handles the heavy lifting so you can focus on creating, innovating, and launching your next big project.</p>            
             <div class="o">
                 <div class="p">
                     <i data-lucide="zap"></i>
-                    <h3>Instant Automation</h3>
-                    <p>Launch AI-powered workflows and viral content instantly. Solis AI handles repetitive tasks so you can focus on creating.</p>
+                    <h3 data-key="benefit-instant-title">Instant Automation</h3>
+                    <p data-key="benefit-instant-text">Launch AI-powered workflows and viral content instantly. Solis AI handles repetitive tasks so you can focus on creating.</p>
                 </div>
                 <div class="p">
                     <i data-lucide="brain"></i>
-                    <h3>Adaptive Intelligence</h3>
-                    <p>Our smart algorithms learn from your data and audience behavior to optimize campaigns, videos, and automation continuously.</p>
+                    <h3 data-key="benefit-adaptive-title">Adaptive Intelligence</h3>
+                    <p data-key="benefit-adaptive-text">Our smart algorithms learn from your data and audience behavior to optimize campaigns, videos, and automation continuously.</p>
                 </div>
                 <div class="p">
                     <i data-lucide="trending-up"></i>
-                    <h3>Maximized Impact</h3>
-                    <p>Grow your projects faster with Solis AI. boost engagement, automate business processes, and achieve results with precision.</p>
+                    <h3 data-key="benefit-maximized-title">Maximized Impact</h3>
+                    <p data-key="benefit-maximized-text">Grow your projects faster with Solis AI. boost engagement, automate business processes, and achieve results with precision.</p>
                 </div>
             </div>
         </div>
@@ -1408,87 +1583,84 @@
 
     <section class="q">
         <div class="r">
-            <h3>Pricing Plans</h3>
-            <p>Power your growth with Solis AI. Each plan grants access to a Luminous model, the smarter way to automate your business.</p>
+            <h3 data-key="pricing-title">Pricing Plans</h3>
+            <p data-key="pricing-subtitle">Power your growth with Solis AI. Each plan grants access to a Luminous model, the smarter way to automate your business.</p>
         </div>
         <div class="s">
             <div class="t">
-                <h4><i data-lucide="rocket"></i> Orbit</h4>
-                <p class="u">$0</p>
-                <p class="v">Model: Luminous 1o</p>
+                <h4 data-key-ignore><i data-lucide="rocket"></i> Orbit</h4>
+                <p class="u" data-key-ignore>$0</p>
+                <p class="v" data-key-ignore>Model: Lumen 1o</p>
                 <ul class="w">
-                    <li><i data-lucide="check-circle"></i> Basic automation tools</li>
-                    <li><i data-lucide="check-circle"></i> Standard AI insights</li>
-                    <li><i data-lucide="check-circle"></i> 2 video generations/month</li>
-                    <li><i data-lucide="x-circle"></i> Email support</li>
-                    <li><i data-lucide="x-circle"></i> No advanced analytics</li>
-                    <li><i data-lucide="x-circle"></i> No API access</li>
-                    <li><i data-lucide="x-circle"></i> No team features</li>
+                    <li data-key="plan-basic-tools"><i data-lucide="check-circle"></i> Basic automation tools</li>
+                    <li data-key="plan-standard-insights"><i data-lucide="check-circle"></i> Standard AI insights</li>
+                    <li data-key="plan-2-videos"><i data-lucide="check-circle"></i> 2 video generations/month</li>
+                    <li data-key="plan-email-support"><i data-lucide="x-circle"></i> Email support</li>
+                    <li data-key="plan-no-advanced-analytics"><i data-lucide="x-circle"></i> No advanced analytics</li>
+                    <li data-key="plan-no-api"><i data-lucide="x-circle"></i> No API access</li>
+                    <li data-key="plan-no-team"><i data-lucide="x-circle"></i> No team features</li>
                 </ul>
-                <button class="x">Current Plan</button>
+                <button class="x" data-key="plan-current">Current Plan</button>
             </div>
             <div class="t">
-                <h4><i data-lucide="rocket"></i> Orbit X</h4>
-                <p class="u">$25</p>
-                <p class="v">Model: Luminous 1o</p>
+                <h4 data-key-ignore><i data-lucide="rocket"></i> Orbit X</h4>
+                <p class="u" data-key-ignore>$25</p>
+                <p class="v" data-key-ignore>Model: Lumen 1o</p>
                 <ul class="w">
-                    <li><i data-lucide="check-circle"></i> Basic automation tools</li>
-                    <li><i data-lucide="check-circle"></i> Standard AI insights</li>
-                    <li><i data-lucide="check-circle"></i> Email support</li>
-                    <li><i data-lucide="check-circle"></i> 10 video generations/month</li>
-                    <li><i data-lucide="x-circle"></i> No advanced analytics</li>
-                    <li><i data-lucide="x-circle"></i> No API access</li>
-                    <li><i data-lucide="x-circle"></i> No team features</li>
+                    <li data-key="plan-basic-tools"><i data-lucide="check-circle"></i> Basic automation tools</li>
+                    <li data-key="plan-standard-insights"><i data-lucide="check-circle"></i> Standard AI insights</li>
+                    <li data-key="plan-email-support"><i data-lucide="check-circle"></i> Email support</li>
+                    <li data-key="plan-10-videos"><i data-lucide="check-circle"></i> 10 video generations/month</li>
+                    <li data-key="plan-no-advanced-analytics"><i data-lucide="x-circle"></i> No advanced analytics</li>
+                    <li data-key="plan-no-api"><i data-lucide="x-circle"></i> No API access</li>
+                    <li data-key="plan-no-team"><i data-lucide="x-circle"></i> No team features</li>
                 </ul>
-                <button class="x">Get Orbit X</button>
+                <button class="x" data-key="plan-get-orbit-x">Get Orbit X</button>
             </div>
-
             <div class="t">
-                <h4><i data-lucide="zap"></i> Orbit Z</h4>
-                <p class="u">$99</p>
-                <p class="v">Model: Luminous 2o</p>
+                <h4 data-key-ignore><i data-lucide="zap"></i> Orbit Z</h4>
+                <p class="u" data-key-ignore>$99</p>
+                <p class="v" data-key-ignore>Model: Lumen 2o</p>
                 <ul class="w">
-                    <li><i data-lucide="check-circle"></i> Advanced automation suite</li>
-                    <li><i data-lucide="check-circle"></i> Data-driven recommendations</li>
-                    <li><i data-lucide="check-circle"></i> Priority API access</li>
-                    <li><i data-lucide="check-circle"></i> 50 video generations/month</li>
-                    <li><i data-lucide="check-circle"></i> Advanced analytics dashboard</li>
-                    <li><i data-lucide="x-circle"></i> No real-time collaboration</li>
-                    <li><i data-lucide="x-circle"></i> No custom AI fine-tuning</li>
+                    <li data-key="plan-advanced-suite"><i data-lucide="check-circle"></i> Advanced automation suite</li>
+                    <li data-key="plan-data-driven-recommendations"><i data-lucide="check-circle"></i> Data-driven recommendations</li>
+                    <li data-key="plan-priority-api"><i data-lucide="check-circle"></i> Priority API access</li>
+                    <li data-key="plan-50-videos"><i data-lucide="check-circle"></i> 50 video generations/month</li>
+                    <li data-key="plan-advanced-analytics-dashboard"><i data-lucide="check-circle"></i> Advanced analytics dashboard</li>
+                    <li data-key="plan-no-realtime-collaboration"><i data-lucide="x-circle"></i> No real-time collaboration</li>
+                    <li data-key="plan-no-custom-finetuning"><i data-lucide="x-circle"></i> No custom AI fine-tuning</li>
                 </ul>
-                <button class="x">Get Orbit Z</button>
+                <button class="x" data-key="plan-get-orbit-z">Get Orbit Z</button>
             </div>
-
             <div class="t">
-                <h4><i data-lucide="sparkles"></i> Orbit Y</h4>
-                <p class="u">$199</p>
-                <p class="v">Model: Luminous 3o</p>
+                <h4 data-key-ignore><i data-lucide="sparkles"></i> Orbit Y</h4>
+                <p class="u" data-key-ignore>$199</p>
+                <p class="v" data-key-ignore>Model: Lumen 3o</p>
                 <ul class="w">
-                    <li><i data-lucide="check-circle"></i> Full AI tool access</li>
-                    <li><i data-lucide="check-circle"></i> Real-time analytics & trends</li>
-                    <li><i data-lucide="check-circle"></i> Real-time collaboration</li>
-                    <li><i data-lucide="check-circle"></i> Unlimited video generations</li>
-                    <li><i data-lucide="check-circle"></i> Early feature access</li>
-                    <li><i data-lucide="check-circle"></i> Priority support</li>
-                    <li><i data-lucide="x-circle"></i> No enterprise customization</li>
+                    <li data-key="plan-full-ai-access"><i data-lucide="check-circle"></i> Full AI tool access</li>
+                    <li data-key="plan-realtime-analytics-trends"><i data-lucide="check-circle"></i> Real-time analytics & trends</li>
+                    <li data-key="plan-realtime-collaboration"><i data-lucide="check-circle"></i> Real-time collaboration</li>
+                    <li data-key="plan-unlimited-videos"><i data-lucide="check-circle"></i> Unlimited video generations</li>
+                    <li data-key="plan-early-access"><i data-lucide="check-circle"></i> Early feature access</li>
+                    <li data-key="plan-priority-support"><i data-lucide="check-circle"></i> Priority support</li>
+                    <li data-key="plan-no-enterprise-customization"><i data-lucide="x-circle"></i> No enterprise customization</li>
                 </ul>
-                <button class="x">Get Orbit Y</button>
+                <button class="x" data-key="plan-get-orbit-y">Get Orbit Y</button>
             </div>
-
             <div class="t featured">
-                <h4><i data-lucide="briefcase"></i> Business Plan</h4>
-                <p class="u">$30</p>
-                <p class="v">Model: Luminous 4o</p>
+                <h4 data-key="plan-business-title"><i data-lucide="briefcase"></i> Business Plan</h4>
+                <p class="u" data-key-ignore>$30</p>
+                <p class="v" data-key-ignore>Model: Lumen 4o</p>
                 <ul class="w">
-                    <li><i data-lucide="check-circle"></i> Team-wide access</li>
-                    <li><i data-lucide="check-circle"></i> Custom model training</li>
-                    <li><i data-lucide="check-circle"></i> Integration with CRM tools</li>
-                    <li><i data-lucide="check-circle"></i> Unlimited everything</li>
-                    <li><i data-lucide="check-circle"></i> Dedicated business dashboard</li>
-                    <li><i data-lucide="check-circle"></i> Premium 24/7 support</li>
-                    <li><i data-lucide="check-circle"></i> Custom AI fine-tuning</li>
+                    <li data-key="plan-team-wide-access"><i data-lucide="check-circle"></i> Team-wide access</li>
+                    <li data-key="plan-custom-model-training"><i data-lucide="check-circle"></i> Custom model training</li>
+                    <li data-key="plan-crm-integration"><i data-lucide="check-circle"></i> Integration with CRM tools</li>
+                    <li data-key="plan-unlimited-everything"><i data-lucide="check-circle"></i> Unlimited everything</li>
+                    <li data-key="plan-dedicated-dashboard"><i data-lucide="check-circle"></i> Dedicated business dashboard</li>
+                    <li data-key="plan-24-7-support"><i data-lucide="check-circle"></i> Premium 24/7 support</li>
+                    <li data-key="plan-custom-finetuning"><i data-lucide="check-circle"></i> Custom AI fine-tuning</li>
                 </ul>
-                <button class="x">Contact Sales</button>
+                <button class="x" data-key="plan-contact-sales">Contact Sales</button>
             </div>
         </div>
     </section>
@@ -1496,8 +1668,8 @@
 <section class="y">
     <div class="z">
         <div class="aa">
-            <h2>Powerful Features</h2>
-            <p>The complete toolkit for creators, startups, and businesses powered by Solis AI's intelligent automation.</p>
+            <h2 data-key="section-features-title">Powerful Features</h2>
+            <p data-key="section-features-subtitle">The complete toolkit for creators, startups, and businesses powered by Solis AI's intelligent automation.</p>
         </div>
 
         <div class="ab">
@@ -1506,8 +1678,8 @@
                     <i data-lucide="scissors"></i>
                 </div>
                 <div class="ae">
-                    <h3>AI Video Clipping</h3>
-                    <p>Instantly generate viral short clips from long-form videos. Detects highlights, captions, and trends fully automated.</p>
+                    <h3 data-key="feature-ai-clipping-title">AI Video Clipping</h3>
+                    <p data-key="feature-ai-clipping-text">Instantly generate viral short clips from long-form videos. Detects highlights, captions, and trends fully automated.</p>
                 </div>
             </div>
 
@@ -1516,8 +1688,8 @@
                     <i data-lucide="mail"></i>
                 </div>
                 <div class="ae">
-                    <h3>Auto Email Support</h3>
-                    <p>Let Solis AI respond to customer inquiries, manage business emails, and craft personalized replies that sound human.</p>
+                    <h3 data-key="feature-auto-email-title">Auto Email Support</h3>
+                    <p data-key="feature-auto-email-text">Let Solis AI respond to customer inquiries, manage business emails, and craft personalized replies that sound human.</p>
                 </div>
             </div>
             <div class="ac">
@@ -1525,8 +1697,8 @@
                     <i data-lucide="globe"></i>
                 </div>
                 <div class="ae">
-                    <h3>Website Startup Builder</h3>
-                    <p>Launch your business website in minutes. Solis AI designs, writes, and deploys your startup page with zero code.</p>
+                    <h3 data-key="feature-website-builder-title">Website Startup Builder</h3>
+                    <p data-key="feature-website-builder-text">Launch your business website in minutes. Solis AI designs, writes, and deploys your startup page with zero code.</p>
                 </div>
             </div>
 
@@ -1535,8 +1707,8 @@
                     <i data-lucide="trending-up"></i>
                 </div>
                 <div class="ae">
-                    <h3>AI Marketing Automation</h3>
-                    <p>Automate ad campaigns, analyze performance, and create data-driven strategies all powered by Luminous intelligence.</p>
+                    <h3 data-key="feature-marketing-automation-title">AI Marketing Automation</h3>
+                    <p data-key="feature-marketing-automation-text">Automate ad campaigns, analyze performance, and create data-driven strategies all powered by Luminous intelligence.</p>
                 </div>
             </div>
             <div class="ac">
@@ -1544,8 +1716,8 @@
                     <i data-lucide="sparkles"></i>
                 </div>
                 <div class="ae">
-                    <h3>Brand Content Generator</h3>
-                    <p>Create posts, videos, and campaigns automatically. Solis AI adapts to your tone and brand style for perfect consistency.</p>
+                    <h3 data-key="feature-content-generator-title">Brand Content Generator</h3>
+                    <p data-key="feature-content-generator-text">Create posts, videos, and campaigns automatically. Solis AI adapts to your tone and brand style for perfect consistency.</p>
                 </div>
             </div>
 
@@ -1554,8 +1726,8 @@
                     <i data-lucide="briefcase"></i>
                 </div>
                 <div class="ae">
-                    <h3>Business Integrations</h3>
-                    <p>Connect Solis AI to your CRM, Gmail, Notion, or Shopify. Sync tasks, leads, and customer insights effortlessly.</p>
+                    <h3 data-key="feature-integrations-title">Business Integrations</h3>
+                    <p data-key="feature-integrations-text">Connect Solis AI to your CRM, Gmail, Notion, or Shopify. Sync tasks, leads, and customer insights effortlessly.</p>
                 </div>
             </div>
         </div>
@@ -1564,15 +1736,15 @@
 
     <section class="af">
         <div class="ag">
-            <h2>Meet the Team</h2>
-            <p>The passionate people behind Solis AI</p>
+            <h2 data-key="section-team-title">Meet the Team</h2>
+            <p data-key="section-team-subtitle">The passionate people behind Solis AI</p>
         </div>
         <div class="ah">
             <div class="ai">
-                <div class="aj">T</div>
-                <h3>Tim B.</h3>
-                <p class="ak">Founder & CEO</p>
-                <p class="al">Founder and CEO of Solis AI. Passionate about creating innovative solutions for businesses.</p>
+                <div class="aj" data-key-ignore>T</div>
+                <h3 data-key-ignore>Tim B.</h3>
+                <p class="ak" data-key="team-ceo-role">Founder & CEO</p>
+                <p class="al" data-key="team-ceo-bio">Founder and CEO of Solis AI. Passionate about creating innovative solutions for businesses.</p>
                 <div class="am">
                     <a href="https://discord.gg/kvpbmJZDQK" target="_blank" aria-label="Discord">
                         <i class="fa-brands fa-discord"></i>
@@ -1582,24 +1754,22 @@
                     </a>
                 </div>
             </div>
-
             <div class="ai">
-                <div class="aj">A</div>
-                <h3>Alex A.</h3>
-                <p class="ak">Co-Owner & Designer</p>
-                <p class="al">UI-UX Designer with a passion for creating visually stunning and user-friendly interfaces.</p>
+                <div class="aj" data-key-ignore>A</div>
+                <h3 data-key-ignore>Alex A.</h3>
+                <p class="ak" data-key="team-designer-role">Co-Owner & Designer</p>
+                <p class="al" data-key="team-designer-bio">UI-UX Designer with a passion for creating visually stunning and user-friendly interfaces.</p>
                 <div class="am">
                     <a href="https://discord.gg/kvpbmJZDQK" target="_blank" aria-label="Discord">
                         <i class="fa-brands fa-discord"></i>
                     </a>
                 </div>
             </div>
-
             <div class="ai">
-                <div class="aj">B</div>
-                <h3>Bloxi</h3>
-                <p class="ak">Community Manager & Advertising Manager</p>
-                <p class="al">Community Manager and Advertising Manager for Solis AI. Passionate about helping businesses grow and succeed.</p>
+                <div class="aj" data-key-ignore>B</div>
+                <h3 data-key-ignore>Bloxi</h3>
+                <p class="ak" data-key="team-manager-role">Community Manager & Advertising Manager</p>
+                <p class="al" data-key="team-manager-bio">Community Manager and Advertising Manager for Solis AI. Passionate about helping businesses grow and succeed.</p>
                 <div class="am">
                     <a href="https://www.youtube.com/@bloxinnit" target="_blank" aria-label="YouTube">
                         <i class="fa-brands fa-youtube"></i>
@@ -1623,32 +1793,32 @@
     <footer>
         <div class="aq">
             <div class="ar">
-                <h3>Socials</h3>
+                <h3 data-key="footer-socials-title">Socials</h3>
                 <a href="https://x.com/Solis_Ai1">X</a>
                 <a href="https://www.youtube.com/@SolisAI-Official">YouTube</a>
                 <a href="https://discord.gg/kvpbmJZDQK">Discord</a>
             </div>
             <div class="ar">
-                <h3>Company</h3>
-                <a href="#">Careers</a>
-                <a href="#">Our Goals</a>
-                <a href="#">Previous Projects</a>
+                <h3 data-key="footer-company-title">Company</h3>
+                <a href="#" data-key="footer-careers">Careers</a>
+                <a href="#" data-key="footer-goals">Our Goals</a>
+                <a href="#" data-key="footer-previous-projects">Previous Projects</a>
             </div>
             <div class="ar">
-                <h3>Resources</h3>
-                <a href="#">Documentation</a>
-                <a href="#">Help Center</a>
-                <a href="#">Community</a>
+                <h3 data-key="footer-resources-title">Resources</h3>
+                <a href="#" data-key="footer-documentation">Documentation</a>
+                <a href="#" data-key="footer-help-center">Help Center</a>
+                <a href="#" data-key="footer-community">Community</a>
             </div>
             <div class="ar">
-                <h3>Legal</h3>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Cookie Policy</a>
+                <h3 data-key="footer-legal-title">Legal</h3>
+                <a href="#" data-key="footer-privacy-policy">Privacy Policy</a>
+                <a href="#" data-key="footer-terms-of-use">Terms of Use</a>
+                <a href="#" data-key="footer-cookie-policy">Cookie Policy</a>
             </div>
         </div>
         <div class="as">
-            <p>&copy; 2025 Solis AI. Empowering creators and businesses with intelligence.</p>
+            <p data-key="footer-copyright">&copy; 2025 Solis AI. Empowering creators and businesses with intelligence.</p>
             <div class="at">
                 <a href="https://x.com/Solis_Ai1" target="_blank" aria-label="X (Twitter)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -1665,14 +1835,13 @@
     </footer>
 
 
-    <!--hidden-->
     <div class="au" id="video-box">
             <div class="av">
                 <button class="aw" id="close-video">&times;</button>
-                <h5>Video Walkthrough</h5>
-                <iframe src="https://www.youtube.com/embed/QC6lC5627Ck" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <a class="ax" href="https://www.youtube.com/watch?v=QC6lC5627Ck" target="_blank">
-                    <button>Watch on YouTube</button>
+                <h5 data-key="video-walkthrough">Video Walkthrough</h5>
+                <iframe src="https://www.youtube.com/@SolisAI-Official" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <a class="ax" href="https://www.youtube.com/@SolisAI-Official" target="_blank">
+                    <button data-key="video-watch-on-youtube">Watch on YouTube</button>
                 </a>
             </div>
         </div>
@@ -1685,30 +1854,886 @@
         const videoBox = document.getElementById("video-box");
         const closeBtn = document.getElementById("close-video");
 
-    videoBtn.addEventListener('click', () => {
-        videoBox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-    
-    closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        videoBox.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
-    
-    videoBox.addEventListener('click', (e) => {
-        if (e.target === videoBox) {
+        videoBtn.addEventListener('click', () => {
+            videoBox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             videoBox.classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-    });
+        });
+        
+        videoBox.addEventListener('click', (e) => {
+            if (e.target === videoBox) {
+                videoBox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && videoBox.classList.contains('active')) {
-            videoBox.classList.remove('active');
-            document.body.style.overflow = 'auto';
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoBox.classList.contains('active')) {
+                videoBox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+
+
+        const translations = {
+            en: {
+                "header-what-is": "What is Solis?",
+                "header-how-it-works": "How it works",
+                "header-pricing": "Pricing",
+                "header-sign-in": "Sign In",
+                "header-in-progress": "In Progress",
+                "main-placeholder": "still in progress... not released.",
+                "feature-clips": "Make clips with AI",
+                "feature-clients": "Find clients with AI",
+                "feature-email": "Email marketing",
+                "feature-business": "Run your online business",
+                "video-walkthrough": "Video walkthrough",
+                "section-what-is-title": "What is Solis AI?",
+                "section-what-is-p1": "Solis AI is your all-in-one AI companion for creating videos and launching businesses effortlessly. We combine advanced artificial intelligence with a user-friendly interface to help you generate high-quality content, produce engaging videos, and bring your business ideas to life faster and easier than ever before.",
+                "section-what-is-p2": "From generating professional videos to turning your business ideas into reality, Solis AI handles the heavy lifting so you can focus on creating, innovating, and launching your next big project.",
+                "benefit-instant-title": "Instant Automation",
+                "benefit-instant-text": "Launch AI-powered workflows and viral content instantly. Solis AI handles repetitive tasks so you can focus on creating.",
+                "benefit-adaptive-title": "Adaptive Intelligence",
+                "benefit-adaptive-text": "Our smart algorithms learn from your data and audience behavior to optimize campaigns, videos, and automation continuously.",
+                "benefit-maximized-title": "Maximized Impact",
+                "benefit-maximized-text": "Grow your projects faster with Solis AI. boost engagement, automate business processes, and achieve results with precision.",
+                "pricing-title": "Pricing Plans",
+                "pricing-subtitle": "Power your growth with Solis AI. Each plan grants access to a Luminous model, the smarter way to automate your business.",
+                "plan-basic-tools": "Basic automation tools",
+                "plan-standard-insights": "Standard AI insights",
+                "plan-2-videos": "2 video generations/month",
+                "plan-email-support": "Email support",
+                "plan-no-advanced-analytics": "No advanced analytics",
+                "plan-no-api": "No API access",
+                "plan-no-team": "No team features",
+                "plan-current": "Current Plan",
+                "plan-10-videos": "10 video generations/month",
+                "plan-get-orbit-x": "Get Orbit X",
+                "plan-advanced-suite": "Advanced automation suite",
+                "plan-data-driven-recommendations": "Data-driven recommendations",
+                "plan-priority-api": "Priority API access",
+                "plan-50-videos": "50 video generations/month",
+                "plan-advanced-analytics-dashboard": "Advanced analytics dashboard",
+                "plan-no-realtime-collaboration": "No real-time collaboration",
+                "plan-no-custom-finetuning": "No custom AI fine-tuning",
+                "plan-get-orbit-z": "Get Orbit Z",
+                "plan-full-ai-access": "Full AI tool access",
+                "plan-realtime-analytics-trends": "Real-time analytics & trends",
+                "plan-realtime-collaboration": "Real-time collaboration",
+                "plan-unlimited-videos": "Unlimited video generations",
+                "plan-early-access": "Early feature access",
+                "plan-priority-support": "Priority support",
+                "plan-no-enterprise-customization": "No enterprise customization",
+                "plan-get-orbit-y": "Get Orbit Y",
+                "plan-business-title": "Business Plan",
+                "plan-team-wide-access": "Team-wide access",
+                "plan-custom-model-training": "Custom model training",
+                "plan-crm-integration": "Integration with CRM tools",
+                "plan-unlimited-everything": "Unlimited everything",
+                "plan-dedicated-dashboard": "Dedicated business dashboard",
+                "plan-24-7-support": "Premium 24/7 support",
+                "plan-custom-finetuning": "Custom AI fine-tuning",
+                "plan-contact-sales": "Contact Sales",
+                "section-features-title": "Powerful Features",
+                "section-features-subtitle": "The complete toolkit for creators, startups, and businesses powered by Solis AI's intelligent automation.",
+                "feature-ai-clipping-title": "AI Video Clipping",
+                "feature-ai-clipping-text": "Instantly generate viral short clips from long-form videos. Detects highlights, captions, and trends fully automated.",
+                "feature-auto-email-title": "Auto Email Support",
+                "feature-auto-email-text": "Let Solis AI respond to customer inquiries, manage business emails, and craft personalized replies that sound human.",
+                "feature-website-builder-title": "Website Startup Builder",
+                "feature-website-builder-text": "Launch your business website in minutes. Solis AI designs, writes, and deploys your startup page with zero code.",
+                "feature-marketing-automation-title": "AI Marketing Automation",
+                "feature-marketing-automation-text": "Automate ad campaigns, analyze performance, and create data-driven strategies all powered by Luminous intelligence.",
+                "feature-content-generator-title": "Brand Content Generator",
+                "feature-content-generator-text": "Create posts, videos, and campaigns automatically. Solis AI adapts to your tone and brand style for perfect consistency.",
+                "feature-integrations-title": "Business Integrations",
+                "feature-integrations-text": "Connect Solis AI to your CRM, Gmail, Notion, or Shopify. Sync tasks, leads, and customer insights effortlessly.",
+                "section-team-title": "Meet the Team",
+                "section-team-subtitle": "The passionate people behind Solis AI",
+                "team-ceo-role": "Founder & CEO",
+                "team-ceo-bio": "Founder and CEO of Solis AI. Passionate about creating innovative solutions for businesses.",
+                "team-designer-role": "Co-Owner & Designer",
+                "team-designer-bio": "UI-UX Designer with a passion for creating visually stunning and user-friendly interfaces.",
+                "team-manager-role": "Community Manager & Advertising Manager",
+                "team-manager-bio": "Community Manager and Advertising Manager for Solis AI. Passionate about helping businesses grow and succeed.",
+                "section-cta-title": "Ready to Transform Your Business?",
+                "section-cta-subtitle": "Follow us on X and join our Discord server to stay updated!",
+                "section-cta-button": "Join Discord & Get Started Free",
+                "footer-socials-title": "Socials",
+                "footer-company-title": "Company",
+                "footer-careers": "Careers",
+                "footer-goals": "Our Goals",
+                "footer-previous-projects": "Previous Projects",
+                "footer-resources-title": "Resources",
+                "footer-documentation": "Documentation",
+                "footer-help-center": "Help Center",
+                "footer-community": "Community",
+                "footer-legal-title": "Legal",
+                "footer-privacy-policy": "Privacy Policy",
+                "footer-terms-of-use": "Terms of Use",
+                "footer-cookie-policy": "Cookie Policy",
+                "footer-copyright": "© 2025 Solis AI. Empowering creators and businesses with intelligence.",
+                "video-watch-on-youtube": "Watch on YouTube",
+            },
+            ru: {
+                "header-what-is": "Что такое Solis?",
+                "header-how-it-works": "Как это работает",
+                "header-pricing": "Цены",
+                "header-sign-in": "Войти",
+                "header-in-progress": "В разработке",
+                "main-placeholder": "еще в разработке... не выпущено.",
+                "feature-clips": "Создавать клипы",
+                "feature-clients": "Находить клиентов",
+                "feature-email": "E-mail маркетинг",
+                "feature-business": "Вести онлайн-бизнес",
+                "video-walkthrough": "Видео-обзор",
+                "section-what-is-title": "Что такое Solis?",
+                "section-what-is-p1": "Solis, ваш универсальный помощник для легкого создания видео и запуска бизнеса. Мы объединяем удобный интерфейс с функциональными инструментами, чтобы помочь вам создавать качественный контент, увлекательные видео и воплощать ваши бизнес-идеи быстрее и проще.",
+                "section-what-is-p2": "От создания профессиональных видео до воплощения бизнес-идей в реальность, Solis берет на себя тяжелую работу, чтобы вы могли сосредоточиться на создании, инновациях и запуске вашего следующего проекта.",
+                "benefit-instant-title": "Мгновенная автоматизация",
+                "benefit-instant-text": "Запускайте рабочие процессы и контент мгновенно. Solis берет на себя повторяющиеся задачи, чтобы вы могли сосредоточиться на творчестве.",
+                "benefit-adaptive-title": "Адаптивный интеллект",
+                "benefit-adaptive-text": "Система учится на ваших данных и поведении аудитории, чтобы оптимизировать кампании, видео и процессы.",
+                "benefit-maximized-title": "Максимальное воздействие",
+                "benefit-maximized-text": "Развивайте проекты быстрее с Solis. Повышайте вовлеченность, автоматизируйте бизнес-процессы и достигайте результатов с точностью.",
+                "pricing-title": "Тарифные планы",
+                "pricing-subtitle": "Ускорьте рост с Solis. Каждый план предоставляет доступ к инструментам для автоматизации бизнеса.",
+                "plan-basic-tools": "Базовые инструменты автоматизации",
+                "plan-standard-insights": "Стандартная аналитика",
+                "plan-2-videos": "2 генерации видео/месяц",
+                "plan-email-support": "Поддержка по электронной почте",
+                "plan-no-advanced-analytics": "Нет расширенной аналитики",
+                "plan-no-api": "Нет доступа к API",
+                "plan-no-team": "Нет командных функций",
+                "plan-current": "Текущий план",
+                "plan-10-videos": "10 генераций видео/месяц",
+                "plan-get-orbit-x": "Получить Orbit X",
+                "plan-advanced-suite": "Расширенный набор инструментов",
+                "plan-data-driven-recommendations": "Рекомендации, основанные на данных",
+                "plan-priority-api": "Приоритетный доступ к API",
+                "plan-50-videos": "50 генераций видео/месяц",
+                "plan-advanced-analytics-dashboard": "Расширенная панель аналитики",
+                "plan-no-realtime-collaboration": "Нет совместной работы в реальном времени",
+                "plan-no-custom-finetuning": "Нет кастомной настройки",
+                "plan-get-orbit-z": "Получить Orbit Z",
+                "plan-full-access": "Полный доступ к инструментам",
+                "plan-realtime-analytics-trends": "Аналитика и тренды в реальном времени",
+                "plan-realtime-collaboration": "Совместная работа в реальном времени",
+                "plan-unlimited-videos": "Неограниченное создание видео",
+                "plan-early-access": "Ранний доступ к функциям",
+                "plan-priority-support": "Приоритетная поддержка",
+                "plan-no-enterprise-customization": "Нет корпоративной кастомизации",
+                "plan-get-orbit-y": "Получить Orbit Y",
+                "plan-business-title": "Бизнес-план",
+                "plan-team-wide-access": "Доступ для всей команды",
+                "plan-custom-model-training": "Обучение кастомной модели",
+                "plan-crm-integration": "Интеграция с инструментами CRM",
+                "plan-unlimited-everything": "Неограниченно все",
+                "plan-dedicated-dashboard": "Выделенная бизнес-панель",
+                "plan-24-7-support": "Премиальная поддержка 24/7",
+                "plan-custom-finetuning": "Кастомная настройка",
+                "plan-contact-sales": "Связаться с отделом продаж",
+                "section-features-title": "Мощные функции",
+                "section-features-subtitle": "Полный набор инструментов для создателей, стартапов и компаний.",
+                "feature-clipping-title": "Нарезка видео",
+                "feature-clipping-text": "Создавайте короткие клипы из длинных видео. Обнаруживает лучшие моменты, добавляет субтитры и отслеживает тренды автоматически.",
+                "feature-auto-email-title": "Автоматическая поддержка по e-mail",
+                "feature-auto-email-text": "Отвечайте на запросы клиентов, управляйте бизнес-электронной почтой и создавайте персонализированные ответы.",
+                "feature-website-builder-title": "Конструктор сайтов для стартапов",
+                "feature-website-builder-text": "Запустите сайт за считанные минуты. Solis проектирует, пишет текст и развертывает страницу без кода.",
+                "feature-marketing-automation-title": "Автоматизация маркетинга",
+                "feature-marketing-automation-text": "Автоматизируйте рекламные кампании, анализируйте производительность и создавайте стратегии, основанные на данных.",
+                "feature-content-generator-title": "Генератор брендированного контента",
+                "feature-content-generator-text": "Создавайте посты, видео и кампании. Система адаптируется к тону и стилю бренда.",
+                "feature-integrations-title": "Бизнес-интеграции",
+                "feature-integrations-text": "Подключите Solis к вашему CRM, Gmail, Notion или Shopify. Синхронизируйте задачи, лиды и данные о клиентах.",
+                "section-team-title": "Встречайте команду",
+                "section-team-subtitle": "Увлеченные люди, стоящие за Solis",
+                "team-ceo-role": "Основатель и генеральный директор",
+                "team-ceo-bio": "Основатель и генеральный директор Solis. Увлечен созданием решений для бизнеса.",
+                "team-designer-role": "Совладелец и дизайнер",
+                "team-designer-bio": "UI-UX дизайнер, увлеченный созданием визуально удобных интерфейсов.",
+                "team-manager-role": "Менеджер сообщества и менеджер по рекламе",
+                "team-manager-bio": "Менеджер сообщества и менеджер по рекламе Solis. Увлечен помощью бизнесу в росте.",
+                "section-cta-title": "Готовы преобразить свой бизнес?",
+                "section-cta-subtitle": "Подписывайтесь на нас в X и присоединяйтесь к нашему Discord-серверу, чтобы быть в курсе событий!",
+                "section-cta-button": "Присоединиться к Discord и начать бесплатно",
+                "footer-socials-title": "Соцсети",
+                "footer-company-title": "Компания",
+                "footer-careers": "Карьера",
+                "footer-goals": "Наши цели",
+                "footer-previous-projects": "Предыдущие проекты",
+                "footer-resources-title": "Ресурсы",
+                "footer-documentation": "Документация",
+                "footer-help-center": "Справочный центр",
+                "footer-community": "Сообщество",
+                "footer-legal-title": "Юридическая информация",
+                "footer-privacy-policy": "Политика конфиденциальности",
+                "footer-terms-of-use": "Условия использования",
+                "footer-cookie-policy": "Политика использования файлов cookie",
+                "footer-copyright": "© 2025 Solis. Расширяем возможности создателей и компаний.",
+                "video-watch-on-youtube": "Смотреть на YouTube"
+            },
+
+            uk: {
+                "header-what-is": "Що таке Solis?",
+                "header-how-it-works": "Як це працює",
+                "header-pricing": "Ціни",
+                "header-sign-in": "Увійти",
+                "header-in-progress": "У розробці",
+                "main-placeholder": "ще у розробці... не випущено.",
+                "feature-clips": "Створювати кліпи",
+                "feature-clients": "Знаходити клієнтів",
+                "feature-email": "Email-маркетинг",
+                "feature-business": "Вести онлайн-бізнес",
+                "video-walkthrough": "Відеоогляд",
+                "section-what-is-title": "Що таке Solis?",
+                "section-what-is-p1": "Solis — ваш універсальний помічник для легкого створення відео та запуску бізнесу. Ми поєднуємо зручний інтерфейс із функціональними інструментами, щоб допомогти вам генерувати високоякісний контент, створювати захоплюючі відео та реалізовувати бізнес-ідеї швидше та легше.",
+                "section-what-is-p2": "Від створення професійних відео до реалізації бізнес-ідей у життя, Solis бере на себе всю важку роботу, щоб ви могли зосередитися на творчості, інноваціях і запуску свого наступного проекту.",
+                "benefit-instant-title": "Миттєва автоматизація",
+                "benefit-instant-text": "Запускайте робочі процеси та контент миттєво. Solis бере на себе повторювані завдання, щоб ви могли зосередитися на творчості.",
+                "benefit-adaptive-title": "Адаптивний інтелект",
+                "benefit-adaptive-text": "Система навчається на ваших даних і поведінці аудиторії, щоб постійно оптимізувати кампанії, відео та процеси.",
+                "benefit-maximized-title": "Максимальний вплив",
+                "benefit-maximized-text": "Розвивайте проєкти швидше з Solis. Підвищуйте залученість, автоматизуйте бізнес-процеси та досягайте результатів з точністю.",
+                "pricing-title": "Тарифні плани",
+                "pricing-subtitle": "Прискорте своє зростання з Solis. Кожен план надає доступ до інструментів для автоматизації бізнесу.",
+                "plan-basic-tools": "Базові інструменти автоматизації",
+                "plan-standard-insights": "Стандартна аналітика",
+                "plan-2-videos": "2 генерації відео/місяць",
+                "plan-email-support": "Підтримка електронною поштою",
+                "plan-no-advanced-analytics": "Немає розширеної аналітики",
+                "plan-no-api": "Немає доступу до API",
+                "plan-no-team": "Немає командних функцій",
+                "plan-current": "Поточний план",
+                "plan-10-videos": "10 генерацій відео/місяць",
+                "plan-get-orbit-x": "Отримати Orbit X",
+                "plan-advanced-suite": "Розширений набір інструментів",
+                "plan-data-driven-recommendations": "Рекомендації на основі даних",
+                "plan-priority-api": "Пріоритетний доступ до API",
+                "plan-50-videos": "50 генерацій відео/місяць",
+                "plan-advanced-analytics-dashboard": "Розширена панель аналітики",
+                "plan-no-realtime-collaboration": "Немає спільної роботи в реальному часі",
+                "plan-no-custom-finetuning": "Немає кастомного налаштування",
+                "plan-get-orbit-z": "Отримати Orbit Z",
+                "plan-full-access": "Повний доступ до інструментів",
+                "plan-realtime-analytics-trends": "Аналітика та тренди в реальному часі",
+                "plan-realtime-collaboration": "Спільна робота в реальному часі",
+                "plan-unlimited-videos": "Необмежена генерація відео",
+                "plan-early-access": "Ранній доступ до функцій",
+                "plan-priority-support": "Пріоритетна підтримка",
+                "plan-no-enterprise-customization": "Немає корпоративної кастомізації",
+                "plan-get-orbit-y": "Отримати Orbit Y",
+                "plan-business-title": "Бізнес-план",
+                "plan-team-wide-access": "Доступ для всієї команди",
+                "plan-custom-model-training": "Навчання кастомної моделі",
+                "plan-crm-integration": "Інтеграція з інструментами CRM",
+                "plan-unlimited-everything": "Необмежено все",
+                "plan-dedicated-dashboard": "Виділена бізнес-панель",
+                "plan-24-7-support": "Преміальна підтримка 24/7",
+                "plan-custom-finetuning": "Кастомне налаштування",
+                "plan-contact-sales": "Зв'язатися з відділом продажів",
+                "section-features-title": "Потужні функції",
+                "section-features-subtitle": "Повний набір інструментів для творців, стартапів і компаній.",
+                "feature-clipping-title": "Нарізка відео",
+                "feature-clipping-text": "Створюйте короткі кліпи з довгих відео. Виявляє основні моменти, додає субтитри та відстежує тренди автоматично.",
+                "feature-auto-email-title": "Автоматична підтримка електронною поштою",
+                "feature-auto-email-text": "Відповідайте на запити клієнтів, керуйте бізнес-листами та створюйте персоналізовані відповіді.",
+                "feature-website-builder-title": "Конструктор вебсайтів для стартапів",
+                "feature-website-builder-text": "Запустіть сайт за лічені хвилини. Solis розробляє дизайн, пише текст і розгортає сторінку без коду.",
+                "feature-marketing-automation-title": "Автоматизація маркетингу",
+                "feature-marketing-automation-text": "Автоматизуйте рекламні кампанії, аналізуйте продуктивність і створюйте стратегії на основі даних.",
+                "feature-content-generator-title": "Генератор брендованого контенту",
+                "feature-content-generator-text": "Створюйте пости, відео та кампанії. Система адаптується до тону та стилю бренду.",
+                "feature-integrations-title": "Бізнес-інтеграції",
+                "feature-integrations-text": "Підключіть Solis до вашого CRM, Gmail, Notion або Shopify. Синхронізуйте завдання, ліди та дані про клієнтів.",
+                "section-team-title": "Знайомтеся з командою",
+                "section-team-subtitle": "Завзяті люди, які стоять за Solis",
+                "team-ceo-role": "Засновник та генеральний директор",
+                "team-ceo-bio": "Засновник та генеральний директор Solis. Завзятий до створення інноваційних рішень для бізнесу.",
+                "team-designer-role": "Співвласник та дизайнер",
+                "team-designer-bio": "UI-UX дизайнер із пристрастю до створення візуально зручних інтерфейсів.",
+                "team-manager-role": "Менеджер спільноти та менеджер з реклами",
+                "team-manager-bio": "Менеджер спільноти та менеджер з реклами Solis. Завзятий допомагати бізнесу зростати.",
+                "section-cta-title": "Готові трансформувати свій бізнес?",
+                "section-cta-subtitle": "Слідкуйте за нами в X і приєднуйтесь до нашого Discord-серверу, щоб бути в курсі подій!",
+                "section-cta-button": "Приєднатися до Discord та почати безкоштовно",
+                "footer-socials-title": "Соцмережі",
+                "footer-company-title": "Компанія",
+                "footer-careers": "Кар'єра",
+                "footer-goals": "Наші цілі",
+                "footer-previous-projects": "Попередні проєкти",
+                "footer-resources-title": "Ресурси",
+                "footer-documentation": "Документація",
+                "footer-help-center": "Довідковий центр",
+                "footer-community": "Спільнота",
+                "footer-legal-title": "Юридична інформація",
+                "footer-privacy-policy": "Політика конфіденційності",
+                "footer-terms-of-use": "Умови використання",
+                "footer-cookie-policy": "Політика використання файлів cookie",
+                "footer-copyright": "© 2025 Solis. Розширюємо можливості творців і компаній.",
+                "video-watch-on-youtube": "Дивитися на YouTube"
+            },
+
+            el: { // Greek
+                "header-what-is": "Τι είναι το Solis;",
+                "header-how-it-works": "Πώς λειτουργεί",
+                "header-pricing": "Τιμές",
+                "header-sign-in": "Σύνδεση",
+                "header-in-progress": "Σε εξέλιξη",
+                "main-placeholder": "Ακόμα σε εξέλιξη... δεν έχει κυκλοφορήσει.",
+                "feature-clips": "Δημιουργία κλιπ",
+                "feature-clients": "Εύρεση πελατών",
+                "feature-email": "Email Marketing",
+                "feature-business": "Διαχείριση της online επιχείρησής σας",
+                "video-walkthrough": "Βίντεο παρουσίαση",
+                "section-what-is-title": "Τι είναι το Solis;",
+                "section-what-is-p1": "Το Solis είναι ο ολοκληρωμένος σύντροφός σας για τη δημιουργία βίντεο και την εύκολη εκκίνηση επιχειρήσεων. Με ένα φιλικό προς τον χρήστη περιβάλλον, μπορείτε να δημιουργήσετε ποιοτικό περιεχόμενο, ελκυστικά βίντεο και να πραγματοποιήσετε τις επιχειρηματικές σας ιδέες γρήγορα και εύκολα.",
+                "section-what-is-p2": "Από τη δημιουργία επαγγελματικών βίντεο μέχρι την υλοποίηση των επιχειρηματικών σας ιδεών, το Solis αναλαμβάνει τις δύσκολες εργασίες, ώστε να μπορείτε να επικεντρωθείτε στη δημιουργία, την καινοτομία και στην εκκίνηση του επόμενου μεγάλου έργου σας.",
+                "benefit-instant-title": "Άμεση αυτοματοποίηση",
+                "benefit-instant-text": "Εκκινήστε ροές εργασίας και περιεχόμενο άμεσα. Το Solis διαχειρίζεται τις επαναλαμβανόμενες εργασίες για να μπορείτε να επικεντρωθείτε στη δημιουργία.",
+                "benefit-adaptive-title": "Προσαρμοστική λειτουργία",
+                "benefit-adaptive-text": "Το σύστημα μαθαίνει από τα δεδομένα σας και τη συμπεριφορά του κοινού για να βελτιστοποιεί συνεχώς τις καμπάνιες, τα βίντεο και τις διαδικασίες.",
+                "benefit-maximized-title": "Μέγιστη επίδραση",
+                "benefit-maximized-text": "Αναπτύξτε τα έργα σας πιο γρήγορα με το Solis. Αυξήστε τη συμμετοχή, αυτοματοποιήστε διαδικασίες και επιτύχετε ακριβή αποτελέσματα.",
+                "pricing-title": "Σχέδια Τιμολόγησης",
+                "pricing-subtitle": "Ενισχύστε την ανάπτυξή σας με το Solis. Κάθε σχέδιο παρέχει πλήρη πρόσβαση σε εργαλεία αυτοματοποίησης.",
+                "plan-basic-tools": "Βασικά εργαλεία αυτοματοποίησης",
+                "plan-standard-insights": "Κανονικές αναλύσεις",
+                "plan-2-videos": "2 παραγωγές βίντεο/μήνα",
+                "plan-email-support": "Υποστήριξη μέσω email",
+                "plan-no-advanced-analytics": "Χωρίς προηγμένες αναλύσεις",
+                "plan-no-api": "Χωρίς πρόσβαση API",
+                "plan-no-team": "Χωρίς ομαδικές λειτουργίες",
+                "plan-current": "Τρέχον Σχέδιο",
+                "plan-10-videos": "10 παραγωγές βίντεο/μήνα",
+                "plan-get-orbit-x": "Αποκτήστε Orbit X",
+                "plan-advanced-suite": "Προηγμένο πακέτο αυτοματοποίησης",
+                "plan-data-driven-recommendations": "Συστάσεις βάσει δεδομένων",
+                "plan-priority-api": "Προτεραιότητα στην πρόσβαση API",
+                "plan-50-videos": "50 παραγωγές βίντεο/μήνα",
+                "plan-advanced-analytics-dashboard": "Προηγμένος πίνακας αναλύσεων",
+                "plan-no-realtime-collaboration": "Χωρίς συνεργασία σε πραγματικό χρόνο",
+                "plan-no-custom-finetuning": "Χωρίς εξατομικευμένες ρυθμίσεις",
+                "plan-get-orbit-z": "Αποκτήστε Orbit Z",
+                "plan-full-access": "Πλήρης πρόσβαση σε εργαλεία",
+                "plan-realtime-analytics-trends": "Αναλύσεις και τάσεις σε πραγματικό χρόνο",
+                "plan-realtime-collaboration": "Συνεργασία σε πραγματικό χρόνο",
+                "plan-unlimited-videos": "Απεριόριστες παραγωγές βίντεο",
+                "plan-early-access": "Πρόωρη πρόσβαση σε λειτουργίες",
+                "plan-priority-support": "Προτεραιότητα υποστήριξης",
+                "plan-no-enterprise-customization": "Χωρίς εταιρική προσαρμογή",
+                "plan-get-orbit-y": "Αποκτήστε Orbit Y",
+                "plan-business-title": "Επιχειρηματικό Σχέδιο",
+                "plan-team-wide-access": "Πρόσβαση για όλη την ομάδα",
+                "plan-custom-model-training": "Προσαρμοσμένη εκπαίδευση",
+                "plan-crm-integration": "Ενσωμάτωση με εργαλεία CRM",
+                "plan-unlimited-everything": "Απεριόριστα όλα",
+                "plan-dedicated-dashboard": "Αφιερωμένος πίνακας ελέγχου",
+                "plan-24-7-support": "Premium υποστήριξη 24/7",
+                "plan-custom-finetuning": "Προσαρμοσμένες ρυθμίσεις",
+                "plan-contact-sales": "Επικοινωνία με Πωλήσεις",
+                "section-features-title": "Ισχυρά Χαρακτηριστικά",
+                "section-features-subtitle": "Πλήρες σετ εργαλείων για δημιουργούς, startups και επιχειρήσεις.",
+                "feature-clipping-title": "Επεξεργασία Βίντεο",
+                "feature-clipping-text": "Δημιουργήστε γρήγορα μικρά κλιπ από μεγάλα βίντεο. Ανιχνεύει αυτόματα τα σημαντικά σημεία, υπότιτλους και τάσεις.",
+                "feature-auto-email-title": "Αυτόματη Υποστήριξη Email",
+                "feature-auto-email-text": "Διαχειριστείτε αιτήματα πελατών, email και δημιουργήστε προσωποποιημένες απαντήσεις.",
+                "feature-website-builder-title": "Δημιουργός Ιστοσελίδων για Startups",
+                "feature-website-builder-text": "Δημιουργήστε την ιστοσελίδα της επιχείρησής σας σε λίγα λεπτά. Το Solis σχεδιάζει, γράφει και δημοσιεύει τη σελίδα σας χωρίς κώδικα.",
+                "feature-marketing-automation-title": "Αυτοματισμός Μάρκετινγκ",
+                "feature-marketing-automation-text": "Αυτοματοποιήστε καμπάνιες, αναλύστε την απόδοση και δημιουργήστε στρατηγικές βασισμένες σε δεδομένα.",
+                "feature-content-generator-title": "Δημιουργός Περιεχομένου",
+                "feature-content-generator-text": "Δημιουργήστε αναρτήσεις, βίντεο και καμπάνιες αυτόματα. Το σύστημα προσαρμόζεται στον τόνο και το στυλ σας.",
+                "feature-integrations-title": "Επιχειρησιακές Ενσωματώσεις",
+                "feature-integrations-text": "Συνδέστε το Solis με το CRM, Gmail, Notion ή Shopify. Συγχρονίστε εύκολα εργασίες, leads και δεδομένα πελατών.",
+                "section-team-title": "Γνωρίστε την Ομάδα",
+                "section-team-subtitle": "Πάθος για δημιουργία πίσω από το Solis",
+                "team-ceo-role": "Ιδρυτής & Διευθύνων Σύμβουλος",
+                "team-ceo-bio": "Ιδρυτής & Διευθύνων Σύμβουλος του Solis. Παθιασμένος με καινοτόμες λύσεις για επιχειρήσεις.",
+                "team-designer-role": "Συνιδιοκτήτης & Σχεδιαστής",
+                "team-designer-bio": "UI-UX σχεδιαστής με πάθος για εντυπωσιακά και φιλικά προς τον χρήστη interfaces.",
+                "team-manager-role": "Community Manager & Διευθυντής Διαφήμισης",
+                "team-manager-bio": "Community Manager και Διευθυντής Διαφήμισης στο Solis. Παθιασμένος με την ανάπτυξη επιχειρήσεων.",
+                "section-cta-title": "Έτοιμοι να μεταμορφώσετε την επιχείρησή σας;",
+                "section-cta-subtitle": "Ακολουθήστε μας στο X και συμμετάσχετε στον Discord μας για ενημερώσεις.",
+                "section-cta-button": "Εγγραφείτε στο Discord και Ξεκινήστε Δωρεάν",
+                "footer-socials-title": "Κοινωνικά Δίκτυα",
+                "footer-company-title": "Εταιρεία",
+                "footer-careers": "Καριέρες",
+                "footer-goals": "Στόχοι μας",
+                "footer-previous-projects": "Προηγούμενα Έργα",
+                "footer-resources-title": "Πόροι",
+                "footer-documentation": "Τεκμηρίωση",
+                "footer-help-center": "Κέντρο βοήθειας",
+                "footer-community": "Κοινότητα",
+                "footer-legal-title": "Νομικά",
+                "footer-privacy-policy": "Πολιτική Απορρήτου",
+                "footer-terms-of-use": "Όροι Χρήσης",
+                "footer-cookie-policy": "Πολιτική Cookies",
+                "footer-copyright": "© 2025 Solis. Ενδυναμώνοντας δημιουργούς και επιχειρήσεις.",
+                "video-watch-on-youtube": "Δείτε στο YouTube"
+            },
+
+            de: { // German
+                "header-what-is": "Was ist Solis?",
+                "header-how-it-works": "Wie es funktioniert",
+                "header-pricing": "Preise",
+                "header-sign-in": "Anmelden",
+                "header-in-progress": "In Arbeit",
+                "main-placeholder": "Noch in Arbeit... nicht veröffentlicht.",
+                "feature-clips": "Clips erstellen",
+                "feature-clients": "Kunden finden",
+                "feature-email": "E-Mail-Marketing",
+                "feature-business": "Ihr Online-Geschäft führen",
+                "video-walkthrough": "Videoübersicht",
+                "section-what-is-title": "Was ist Solis?",
+                "section-what-is-p1": "Solis ist Ihr umfassender Partner für die Erstellung von Videos und den einfachen Start von Unternehmen. Mit einer benutzerfreundlichen Oberfläche können Sie hochwertigen Content erstellen, ansprechende Videos produzieren und Ihre Geschäftsideen schneller und einfacher als je zuvor umsetzen.",
+                "section-what-is-p2": "Von der Produktion professioneller Videos bis zur Umsetzung Ihrer Geschäftsideen – Solis übernimmt die aufwändigen Aufgaben, damit Sie sich auf Kreation, Innovation und den Start Ihres nächsten großen Projekts konzentrieren können.",
+                "benefit-instant-title": "Sofortige Automatisierung",
+                "benefit-instant-text": "Starten Sie Arbeitsabläufe und Inhalte sofort. Solis übernimmt wiederkehrende Aufgaben, damit Sie sich auf das Wesentliche konzentrieren können.",
+                "benefit-adaptive-title": "Anpassungsfähige Intelligenz",
+                "benefit-adaptive-text": "Das System lernt aus Ihren Daten und dem Verhalten Ihrer Zielgruppe, um Kampagnen, Videos und Prozesse kontinuierlich zu optimieren.",
+                "benefit-maximized-title": "Maximale Wirkung",
+                "benefit-maximized-text": "Wachsen Sie schneller mit Solis. Steigern Sie Engagement, automatisieren Sie Geschäftsprozesse und erzielen Sie präzise Ergebnisse.",
+                "pricing-title": "Preismodelle",
+                "pricing-subtitle": "Steigern Sie Ihr Wachstum mit Solis. Jedes Modell bietet vollen Zugriff auf die Automatisierungswerkzeuge.",
+                "plan-basic-tools": "Basis-Automatisierungstools",
+                "plan-standard-insights": "Standard-Analysen",
+                "plan-2-videos": "2 Video-Generierungen/Monat",
+                "plan-email-support": "E-Mail-Support",
+                "plan-no-advanced-analytics": "Keine erweiterten Analysen",
+                "plan-no-api": "Kein API-Zugang",
+                "plan-no-team": "Keine Teamfunktionen",
+                "plan-current": "Aktuelles Modell",
+                "plan-10-videos": "10 Video-Generierungen/Monat",
+                "plan-get-orbit-x": "Orbit X erhalten",
+                "plan-advanced-suite": "Erweiterte Automatisierungs-Suite",
+                "plan-data-driven-recommendations": "Datenbasierte Empfehlungen",
+                "plan-priority-api": "Priorisierter API-Zugang",
+                "plan-50-videos": "50 Video-Generierungen/Monat",
+                "plan-advanced-analytics-dashboard": "Erweiterte Analyse-Dashboard",
+                "plan-no-realtime-collaboration": "Keine Echtzeit-Zusammenarbeit",
+                "plan-no-custom-finetuning": "Keine individuelle Feinabstimmung",
+                "plan-get-orbit-z": "Orbit Z erhalten",
+                "plan-full-access": "Voller Zugriff auf Tools",
+                "plan-realtime-analytics-trends": "Echtzeit-Analysen und Trends",
+                "plan-realtime-collaboration": "Echtzeit-Zusammenarbeit",
+                "plan-unlimited-videos": "Unbegrenzte Video-Generierungen",
+                "plan-early-access": "Früher Zugriff auf Funktionen",
+                "plan-priority-support": "Priorisierter Support",
+                "plan-no-enterprise-customization": "Keine Unternehmensanpassung",
+                "plan-get-orbit-y": "Orbit Y erhalten",
+                "plan-business-title": "Business-Plan",
+                "plan-team-wide-access": "Zugriff für das gesamte Team",
+                "plan-custom-model-training": "Individuelles Modelltraining",
+                "plan-crm-integration": "CRM-Integration",
+                "plan-unlimited-everything": "Alles unbegrenzt",
+                "plan-dedicated-dashboard": "Dediziertes Dashboard",
+                "plan-24-7-support": "Premium-Support 24/7",
+                "plan-custom-finetuning": "Individuelle Anpassungen",
+                "plan-contact-sales": "Vertrieb kontaktieren",
+                "section-features-title": "Leistungsstarke Funktionen",
+                "section-features-subtitle": "Komplettes Werkzeug-Set für Creator, Startups und Unternehmen.",
+                "feature-clipping-title": "Video-Clipping",
+                "feature-clipping-text": "Erstellen Sie schnell kurze Clips aus langen Videos. Erkennt automatisch Höhepunkte, Untertitel und Trends.",
+                "feature-auto-email-title": "Automatischer E-Mail-Support",
+                "feature-auto-email-text": "Verwalten Sie Kundenanfragen, E-Mails und erstellen Sie personalisierte Antworten.",
+                "feature-website-builder-title": "Website-Ersteller für Startups",
+                "feature-website-builder-text": "Starten Sie Ihre Unternehmenswebsite in Minuten. Solis erstellt, schreibt und veröffentlicht Ihre Seite ohne Code.",
+                "feature-marketing-automation-title": "Marketing-Automatisierung",
+                "feature-marketing-automation-text": "Automatisieren Sie Kampagnen, analysieren Sie die Leistung und erstellen Sie datenbasierte Strategien.",
+                "feature-content-generator-title": "Content-Generator",
+                "feature-content-generator-text": "Erstellen Sie automatisch Posts, Videos und Kampagnen. Das System passt sich Ihrem Stil und Ton an.",
+                "feature-integrations-title": "Geschäfts-Integrationen",
+                "feature-integrations-text": "Verbinden Sie Solis mit CRM, Gmail, Notion oder Shopify. Synchronisieren Sie Aufgaben, Leads und Kundendaten einfach.",
+                "section-team-title": "Lernen Sie das Team kennen",
+                "section-team-subtitle": "Die leidenschaftlichen Köpfe hinter Solis",
+                "team-ceo-role": "Gründer & CEO",
+                "team-ceo-bio": "Gründer & CEO von Solis. Leidenschaftlich in der Entwicklung innovativer Geschäftslösungen.",
+                "team-designer-role": "Miteigentümer & Designer",
+                "team-designer-bio": "UI/UX-Designer mit Leidenschaft für beeindruckende, benutzerfreundliche Interfaces.",
+                "team-manager-role": "Community Manager & Werbeleiter",
+                "team-manager-bio": "Community Manager und Werbeleiter bei Solis. Engagiert für Geschäftswachstum und Erfolg.",
+                "section-cta-title": "Bereit, Ihr Geschäft zu transformieren?",
+                "section-cta-subtitle": "Folgen Sie uns auf X und treten Sie unserem Discord bei, um auf dem Laufenden zu bleiben.",
+                "section-cta-button": "Discord beitreten und kostenlos starten",
+                "footer-socials-title": "Soziale Netzwerke",
+                "footer-company-title": "Unternehmen",
+                "footer-careers": "Karriere",
+                "footer-goals": "Unsere Ziele",
+                "footer-previous-projects": "Frühere Projekte",
+                "footer-resources-title": "Ressourcen",
+                "footer-documentation": "Dokumentation",
+                "footer-help-center": "Hilfezentrum",
+                "footer-community": "Community",
+                "footer-legal-title": "Rechtliches",
+                "footer-privacy-policy": "Datenschutzrichtlinie",
+                "footer-terms-of-use": "Nutzungsbedingungen",
+                "footer-cookie-policy": "Cookie-Richtlinie",
+                "footer-copyright": "© 2025 Solis. Stärkt Creator und Unternehmen.",
+                "video-watch-on-youtube": "Auf YouTube ansehen"
+            },
+
+
+
+            ka: {
+                "header-what-is": "რა არის Solis?",
+                "header-how-it-works": "როგორ მუშაობს",
+                "header-pricing": "ფასები",
+                "header-sign-in": "შესვლა",
+                "header-in-progress": "მიმდინარეობს",
+                "main-placeholder": "ჯერ კიდევ მუშავდება... არ გამოვიდა.",
+                "feature-clips": "კლიპების შექმნა",
+                "feature-clients": "კლიენტების პოვნა",
+                "feature-email": "ელექტრონული ფოსტის მარკეტინგი",
+                "feature-business": "თქვენი ონლაინ ბიზნესის მართვა",
+                "video-walkthrough": "ვიდეო მიმოხილვა",
+                "section-what-is-title": "რა არის Solis?",
+                "section-what-is-p1": "Solis არის ყოვლისმომცველი ინსტრუმენტი ვიდეოების შექმნისა და ბიზნესის მარტივად დაწყებისთვის. ინტუიციური ინტერფეისის დახმარებით შეგიძლიათ სწრაფად შექმნათ მაღალი ხარისხის კონტენტი, საინტერესო ვიდეოები და განახორციელოთ თქვენი ბიზნეს იდეები მარტივად.",
+                "section-what-is-p2": "პროფესიონალური ვიდეოების გენერირებიდან თქვენი ბიზნეს იდეების რეალობად ქცევამდე, Solis იღებს თავის თავზე რთულ ნაწილს, რათა თქვენ შეძლოთ ფოკუსირება შექმნაზე, ინოვაციებზე და თქვენი შემდეგი პროექტის დაწყებაზე.",
+                "benefit-instant-title": "მყისიერი ავტომატიზაცია",
+                "benefit-instant-text": "გააქტიურეთ სამუშაო პროცესები და კონტენტი მყისიერად. Solis იღებს განმეორებით ამოცანებს, რათა თქვენ შეძლოთ ფოკუსირება შექმნაზე.",
+                "benefit-adaptive-title": "ადაპტური ინტელექტი",
+                "benefit-adaptive-text": "სისტემა სწავლობს თქვენი მონაცემებისა და აუდიტორიის ქცევას, რათა მუდმივად ოპტიმიზირდეს კამპანიები, ვიდეოები და სამუშაო პროცესები.",
+                "benefit-maximized-title": "მაქსიმალური ეფექტი",
+                "benefit-maximized-text": "გაზარდეთ თქვენი პროექტები უფრო სწრაფად Solis-ის გამოყენებით. გაზარდეთ ჩართულობა, ავტომატიზაცია და მიაღწიეთ შედეგებს ზუსტად.",
+                "pricing-title": "ფასების გეგმები",
+                "pricing-subtitle": "გაზარდეთ თქვენი ზრდა Solis-ის დახმარებით. თითოეული გეგმა უზრუნველყოფს სრულ წვდომას ბიზნესის ავტომატიზაციის ინსტრუმენტებზე.",
+                "plan-basic-tools": "ძირითადი ავტომატიზაციის ხელსაწყოები",
+                "plan-standard-insights": "სტანდარტული ანალიტიკა",
+                "plan-2-videos": "2 ვიდეოს გენერაცია/თვეში",
+                "plan-email-support": "ელექტრონული ფოსტის მხარდაჭერა",
+                "plan-no-advanced-analytics": "არ არის მოწინავე ანალიტიკა",
+                "plan-no-api": "არ არის API წვდომა",
+                "plan-no-team": "არ არის გუნდური ფუნქციები",
+                "plan-current": "მიმდინარე გეგმა",
+                "plan-10-videos": "10 ვიდეოს გენერაცია/თვეში",
+                "plan-get-orbit-x": "მიიღეთ Orbit X",
+                "plan-advanced-suite": "მოწინავე ხელსაწყოების ნაკრები",
+                "plan-data-driven-recommendations": "მონაცემებზე დაფუძნებული რეკომენდაციები",
+                "plan-priority-api": "პრიორიტეტული API წვდომა",
+                "plan-50-videos": "50 ვიდეოს გენერაცია/თვეში",
+                "plan-advanced-analytics-dashboard": "მოწინავე ანალიტიკის დაფა",
+                "plan-no-realtime-collaboration": "არ არის რეალურ დროში თანამშრომლობა",
+                "plan-no-custom-finetuning": "არ არის საბაჟო დაყენება",
+                "plan-get-orbit-z": "მიიღეთ Orbit Z",
+                "plan-full-access": "სრული წვდომა ინსტრუმენტებზე",
+                "plan-realtime-analytics-trends": "რეალურ დროში ანალიტიკა და ტენდენციები",
+                "plan-realtime-collaboration": "რეალურ დროში თანამშრომლობა",
+                "plan-unlimited-videos": "შეუზღუდავი ვიდეო გენერაცია",
+                "plan-early-access": "ადრეული ფუნქციების წვდომა",
+                "plan-priority-support": "პრიორიტეტული მხარდაჭერა",
+                "plan-no-enterprise-customization": "არ არის საწარმოს მორგება",
+                "plan-get-orbit-y": "მიიღეთ Orbit Y",
+                "plan-business-title": "ბიზნეს გეგმა",
+                "plan-team-wide-access": "გუნდური წვდომა",
+                "plan-custom-model-training": "საბაჟო მოდელის სწავლება",
+                "plan-crm-integration": "ინტეგრაცია CRM ინსტრუმენტებთან",
+                "plan-unlimited-everything": "შეუზღუდავი ყველაფერი",
+                "plan-dedicated-dashboard": "გამოყოფილი ბიზნეს დაფა",
+                "plan-24-7-support": "პრემიუმ 24/7 მხარდაჭერა",
+                "plan-custom-finetuning": "საბაჟო დაყენება",
+                "plan-contact-sales": "დაუკავშირდით გაყიდვების სამსახურს",
+                "section-features-title": "მძლავრი ფუნქციები",
+                "section-features-subtitle": "სრული ინსტრუმენტების ნაკრები შემქმნელებისთვის, სტარტაპებისთვის და ბიზნესებისთვის.",
+                "feature-clipping-title": "ვიდეო კლიპირება",
+                "feature-clipping-text": "მარტივად შექმენით მოკლე კლიპები გრძელი ვიდეოებიდან. აღმოაჩინეთ ძირითადი მომენტები, სუბტიტრები და ტენდენციები ავტომატურად.",
+                "feature-auto-email-title": "ავტო ელექტრონული ფოსტის მხარდაჭერა",
+                "feature-auto-email-text": "უპასუხეთ მომხმარებლის შეკითხვებს, მართეთ ბიზნეს ფოსტა და შექმენით პერსონალიზებული პასუხები.",
+                "feature-website-builder-title": "ვებგვერდის სტარტაპის შემქმნელი",
+                "feature-website-builder-text": "გაუშვით თქვენი ბიზნეს ვებგვერდი წუთებში. Solis ქმნის დიზაინს, წერს ტექსტს და აქვეყნებს გვერდს ნულოვანი კოდით.",
+                "feature-marketing-automation-title": "მარკეტინგის ავტომატიზაცია",
+                "feature-marketing-automation-text": "ავტომატიზაცია რეკლამების კამპანიების, გაანალიზეთ შესრულება და შექმენით მონაცემებზე დაფუძნებული სტრატეგიები.",
+                "feature-content-generator-title": "ბრენდის კონტენტის გენერატორი",
+                "feature-content-generator-text": "შექმენით პოსტები, ვიდეოები და კამპანიები. სისტემა ადაპტირდება თქვენს ტონსა და სტილს.",
+                "feature-integrations-title": "ბიზნეს ინტეგრაციები",
+                "feature-integrations-text": "დააკავშირეთ Solis თქვენს CRM-თან, Gmail-თან, Notion-თან ან Shopify-თან. სინქრონიზაცია მარტივად.",
+                "section-team-title": "გაიცანით გუნდი",
+                "section-team-subtitle": "გატაცებული ადამიანები Solis-ის უკან",
+                "team-ceo-role": "დამფუძნებელი და აღმასრულებელი დირექტორი",
+                "team-ceo-bio": "დამფუძნებელი და აღმასრულებელი დირექტორი Solis. გატაცებულია ბიზნესისთვის ინოვაციური გადაწყვეტილებების შექმნით.",
+                "team-designer-role": "თანამფლობელი და დიზაინერი",
+                "team-designer-bio": "UI-UX დიზაინერი, გატაცებულია ვიზუალურად განსაცვიფრებელი და მოსახერხებელი ინტერფეისების შექმნით.",
+                "team-manager-role": "საზოგადოების მენეჯერი და რეკლამის მენეჯერი",
+                "team-manager-bio": "საზოგადოების მენეჯერი და რეკლამის მენეჯერი Solis-ში. გატაცებულია ბიზნესის ზრდის მხარდაჭერით.",
+                "section-cta-title": "მზად ხართ თქვენი ბიზნესის ტრანსფორმაციისთვის?",
+                "section-cta-subtitle": "გამოგვყევით X-ზე და შემოუერთდით ჩვენს Discord სერვერს, რათა იყოთ განახლებული!",
+                "section-cta-button": "შემოუერთდით Discord-ს და დაიწყეთ უფასოდ",
+                "footer-socials-title": "სოციალური ქსელები",
+                "footer-company-title": "კომპანია",
+                "footer-careers": "კარიერა",
+                "footer-goals": "ჩვენი მიზნები",
+                "footer-previous-projects": "წინა პროექტები",
+                "footer-resources-title": "რესურსები",
+                "footer-documentation": "დოკუმენტაცია",
+                "footer-help-center": "დახმარების ცენტრი",
+                "footer-community": "საზოგადოება",
+                "footer-legal-title": "სამართლებრივი",
+                "footer-privacy-policy": "კონფიდენციალურობის პოლიტიკა",
+                "footer-terms-of-use": "გამოყენების პირობები",
+                "footer-cookie-policy": "ქუქიების პოლიტიკა",
+                "footer-copyright": "© 2025 Solis. შემქმნელებისა და ბიზნესების გაძლიერება.",
+                "video-watch-on-youtube": "უყურეთ YouTube-ზე"
+            },
+
+            es: {
+            "header-what-is": "¿Qué es Solis?",
+            "header-how-it-works": "Cómo funciona",
+            "header-pricing": "Precios",
+            "header-sign-in": "Iniciar Sesión",
+            "header-in-progress": "En Progreso",
+            "main-placeholder": "Aún en progreso... no lanzado.",
+            "feature-clips": "Crear clips",
+            "feature-clients": "Encontrar clientes",
+            "feature-email": "Marketing por correo",
+            "feature-business": "Dirigir tu negocio online",
+            "video-walkthrough": "Recorrido en video",
+            "section-what-is-title": "¿Qué es Solis?",
+            "section-what-is-p1": "Solis es su compañero todo en uno para crear videos y lanzar negocios sin esfuerzo. Con una interfaz intuitiva, puede generar contenido de alta calidad, producir videos atractivos y dar vida a sus ideas de negocio de manera rápida y sencilla.",
+            "section-what-is-p2": "Desde la creación de videos profesionales hasta convertir sus ideas de negocio en realidad, Solis se encarga de las tareas complejas para que usted pueda concentrarse en crear, innovar y lanzar su próximo proyecto.",
+            "benefit-instant-title": "Automatización Instantánea",
+            "benefit-instant-text": "Lance flujos de trabajo y contenido de inmediato. Solis gestiona tareas repetitivas para que pueda enfocarse en la creación.",
+            "benefit-adaptive-title": "Inteligencia Adaptativa",
+            "benefit-adaptive-text": "El sistema aprende de sus datos y del comportamiento de la audiencia para optimizar campañas, videos y procesos continuamente.",
+            "benefit-maximized-title": "Impacto Maximizado",
+            "benefit-maximized-text": "Haga crecer sus proyectos más rápido con Solis. Aumente la participación, automatice procesos y logre resultados precisos.",
+            "pricing-title": "Planes de Precios",
+            "pricing-subtitle": "Impulse su crecimiento con Solis. Cada plan otorga acceso completo a herramientas de automatización empresarial.",
+            "plan-basic-tools": "Herramientas básicas de automatización",
+            "plan-standard-insights": "Perspectivas estándar",
+            "plan-2-videos": "2 generaciones de video/mes",
+            "plan-email-support": "Soporte por correo electrónico",
+            "plan-no-advanced-analytics": "Sin análisis avanzados",
+            "plan-no-api": "Sin acceso a API",
+            "plan-no-team": "Sin funciones de equipo",
+            "plan-current": "Plan Actual",
+            "plan-10-videos": "10 generaciones de video/mes",
+            "plan-get-orbit-x": "Obtener Orbit X",
+            "plan-advanced-suite": "Suite avanzada de automatización",
+            "plan-data-driven-recommendations": "Recomendaciones basadas en datos",
+            "plan-priority-api": "Acceso prioritario a API",
+            "plan-50-videos": "50 generaciones de video/mes",
+            "plan-advanced-analytics-dashboard": "Panel de análisis avanzado",
+            "plan-no-realtime-collaboration": "Sin colaboración en tiempo real",
+            "plan-no-custom-finetuning": "Sin ajustes personalizados",
+            "plan-get-orbit-z": "Obtener Orbit Z",
+            "plan-full-access": "Acceso completo a herramientas",
+            "plan-realtime-analytics-trends": "Análisis y tendencias en tiempo real",
+            "plan-realtime-collaboration": "Colaboración en tiempo real",
+            "plan-unlimited-videos": "Generaciones de video ilimitadas",
+            "plan-early-access": "Acceso anticipado a funciones",
+            "plan-priority-support": "Soporte prioritario",
+            "plan-no-enterprise-customization": "Sin personalización empresarial",
+            "plan-get-orbit-y": "Obtener Orbit Y",
+            "plan-business-title": "Plan de Negocios",
+            "plan-team-wide-access": "Acceso para todo el equipo",
+            "plan-custom-model-training": "Entrenamiento personalizado",
+            "plan-crm-integration": "Integración con herramientas CRM",
+            "plan-unlimited-everything": "Todo ilimitado",
+            "plan-dedicated-dashboard": "Panel de negocios dedicado",
+            "plan-24-7-support": "Soporte premium 24/7",
+            "plan-custom-finetuning": "Ajustes personalizados",
+            "plan-contact-sales": "Contactar a Ventas",
+            "section-features-title": "Características Potentes",
+            "section-features-subtitle": "Kit completo de herramientas para creadores, startups y empresas.",
+            "feature-clipping-title": "Recorte de Video",
+            "feature-clipping-text": "Cree clips cortos a partir de videos largos. Detecta automáticamente momentos destacados, subtítulos y tendencias.",
+            "feature-auto-email-title": "Soporte de Correo Automático",
+            "feature-auto-email-text": "Gestione consultas de clientes, correos comerciales y genere respuestas personalizadas.",
+            "feature-website-builder-title": "Constructor de Sitios Web para Startups",
+            "feature-website-builder-text": "Lance el sitio web de su negocio en minutos. Solis diseña, escribe y despliega su página de inicio sin código.",
+            "feature-marketing-automation-title": "Automatización de Marketing",
+            "feature-marketing-automation-text": "Automatice campañas, analice el rendimiento y cree estrategias basadas en datos.",
+            "feature-content-generator-title": "Generador de Contenido",
+            "feature-content-generator-text": "Cree publicaciones, videos y campañas automáticamente. El sistema se adapta a su tono y estilo.",
+            "feature-integrations-title": "Integraciones Comerciales",
+            "feature-integrations-text": "Conecte Solis a su CRM, Gmail, Notion o Shopify. Sincronice tareas, clientes potenciales e información del cliente sin esfuerzo.",
+            "section-team-title": "Conozca al Equipo",
+            "section-team-subtitle": "Personas apasionadas detrás de Solis",
+            "team-ceo-role": "Fundador y CEO",
+            "team-ceo-bio": "Fundador y CEO de Solis. Apasionado por crear soluciones innovadoras para empresas.",
+            "team-designer-role": "Copropietario y Diseñador",
+            "team-designer-bio": "Diseñador UI-UX, apasionado por interfaces visualmente impresionantes y fáciles de usar.",
+            "team-manager-role": "Community Manager y Gerente de Publicidad",
+            "team-manager-bio": "Community Manager y Gerente de Publicidad en Solis. Apasionado por ayudar a empresas a crecer y tener éxito.",
+            "section-cta-title": "¿Listo para Transformar su Negocio?",
+            "section-cta-subtitle": "Síganos en X y únase a nuestro servidor de Discord para mantenerse actualizado.",
+            "section-cta-button": "Unirse a Discord y Empezar Gratis",
+            "footer-socials-title": "Redes Sociales",
+            "footer-company-title": "Empresa",
+            "footer-careers": "Carreras",
+            "footer-goals": "Nuestros Objetivos",
+            "footer-previous-projects": "Proyectos Anteriores",
+            "footer-resources-title": "Recursos",
+            "footer-documentation": "Documentación",
+            "footer-help-center": "Centro de Ayuda",
+            "footer-community": "Comunidad",
+            "footer-legal-title": "Legal",
+            "footer-privacy-policy": "Política de Privacidad",
+            "footer-terms-of-use": "Términos de Uso",
+            "footer-cookie-policy": "Política de Cookies",
+            "footer-copyright": "© 2025 Solis. Empoderando a creadores y empresas.",
+            "video-watch-on-youtube": "Ver en YouTube"
+        },
+
+            zh: { // Chinese
+                "header-what-is": "什么是 Solis?",
+                "header-how-it-works": "运作方式",
+                "header-pricing": "定价",
+                "header-sign-in": "登录",
+                "header-in-progress": "进行中",
+                "main-placeholder": "仍在进行中...尚未发布。",
+                "feature-clips": "用 AI 制作剪辑",
+                "feature-clients": "用 AI 寻找客户",
+                "feature-email": "电子邮件营销",
+                "feature-business": "运营您的在线业务",
+                "video-walkthrough": "视频演练",
+                "section-what-is-title": "什么是 Solis AI?",
+                "section-what-is-p1": "Solis AI 是您一站式的 AI 伙伴，助您轻松创建视频和开展业务。我们将先进的人工智能与用户友好的界面相结合，帮助您生成高质量内容、制作引人入胜的视频，并以前所未有的速度和便捷性实现您的商业想法。",
+                "section-what-is-p2": "从生成专业视频到将您的商业想法变为现实，Solis AI 承担了繁重的工作，让您可以专注于创造、创新和启动您的下一个重大项目。",
+                "benefit-instant-title": "即时自动化",
+                "benefit-instant-text": "立即启动由 AI 驱动的工作流程和病毒式内容。Solis AI 处理重复性任务，让您可以专注于创作。",
+                "benefit-adaptive-title": "自适应智能",
+                "benefit-adaptive-text": "我们的智能算法从您的数据和受众行为中学习，以持续优化活动、视频和自动化。",
+                "benefit-maximized-title": "影响力最大化",
+                "benefit-maximized-text": "使用 Solis AI 更快地发展您的项目。提高参与度，自动化业务流程，并精确实现结果。",
+                "pricing-title": "定价计划",
+                "pricing-subtitle": "使用 Solis AI 为您的增长提供动力。每个计划都提供对 Luminous 模型的访问权限，这是自动化业务的更智能方式。",
+                "plan-basic-tools": "基本自动化工具",
+                "plan-standard-insights": "标准 AI 洞察",
+                "plan-2-videos": "2 次视频生成/月",
+                "plan-email-support": "电子邮件支持",
+                "plan-no-advanced-analytics": "无高级分析",
+                "plan-no-api": "无 API 访问",
+                "plan-no-team": "无团队功能",
+                "plan-current": "当前计划",
+                "plan-10-videos": "10 次视频生成/月",
+                "plan-get-orbit-x": "获取 Orbit X",
+                "plan-advanced-suite": "高级自动化套件",
+                "plan-data-driven-recommendations": "数据驱动的推荐",
+                "plan-priority-api": "优先 API 访问",
+                "plan-50-videos": "50 次视频生成/月",
+                "plan-advanced-analytics-dashboard": "高级分析仪表板",
+                "plan-no-realtime-collaboration": "无实时协作",
+                "plan-no-custom-finetuning": "无自定义 AI 微调",
+                "plan-get-orbit-z": "获取 Orbit Z",
+                "plan-full-ai-access": "完整的 AI 工具访问",
+                "plan-realtime-analytics-trends": "实时分析和趋势",
+                "plan-realtime-collaboration": "实时协作",
+                "plan-unlimited-videos": "无限制视频生成",
+                "plan-early-access": "早期功能访问",
+                "plan-priority-support": "优先支持",
+                "plan-no-enterprise-customization": "无企业定制",
+                "plan-get-orbit-y": "获取 Orbit Y",
+                "plan-business-title": "商业计划",
+                "plan-team-wide-access": "团队范围访问",
+                "plan-custom-model-training": "自定义模型训练",
+                "plan-crm-integration": "与 CRM 工具集成",
+                "plan-unlimited-everything": "一切无限",
+                "plan-dedicated-dashboard": "专用商业仪表板",
+                "plan-24-7-support": "高级 24/7 支持",
+                "plan-custom-finetuning": "自定义 AI 微调",
+                "plan-contact-sales": "联系销售",
+                "section-features-title": "强大功能",
+                "section-features-subtitle": "由 Solis AI 智能自动化驱动的面向创作者、初创企业和企业的完整工具包。",
+                "feature-ai-clipping-title": "AI 视频剪辑",
+                "feature-ai-clipping-text": "从长视频中即时生成病毒式短片。完全自动化地检测亮点、字幕和趋势。",
+                "feature-auto-email-title": "自动电子邮件支持",
+                "feature-auto-email-text": "让 Solis AI 回应客户询问、管理商业电子邮件，并制作听起来像人类的个性化回复。",
+                "feature-website-builder-title": "网站初创企业构建器",
+                "feature-website-builder-text": "在几分钟内启动您的商业网站。Solis AI 设计、撰写并部署您的初创页面，无需代码。",
+                "feature-marketing-automation-title": "AI 营销自动化",
+                "feature-marketing-automation-text": "自动化广告活动、分析效果并创建数据驱动的策略，所有这些都由 Luminous 智能驱动。",
+                "feature-content-generator-title": "品牌内容生成器",
+                "feature-content-generator-text": "自动创建帖子、视频和活动。Solis AI 适应您的语调和品牌风格，以实现完美的一致性。",
+                "feature-integrations-title": "商业集成",
+                "feature-integrations-text": "将 Solis AI 连接到您的 CRM、Gmail、Notion 或 Shopify。轻松同步任务、潜在客户和客户洞察。",
+                "section-team-title": "认识团队",
+                "section-team-subtitle": "Solis AI 背后充满热情的人们",
+                "team-ceo-role": "创始人兼首席执行官",
+                "team-ceo-bio": "Solis AI 的创始人兼首席执行官。热衷于为企业创造创新解决方案。",
+                "team-designer-role": "共同所有人兼设计师",
+                "team-designer-bio": "UI-UX 设计师，热衷于创造视觉震撼且用户友好的界面。",
+                "team-manager-role": "社区经理兼广告经理",
+                "team-manager-bio": "Solis AI 的社区经理兼广告经理。热衷于帮助企业成长和成功。",
+                "section-cta-title": "准备好改造您的业务了吗？",
+                "section-cta-subtitle": "在 X 上关注我们并加入我们的 Discord 服务器以保持更新！",
+                "section-cta-button": "加入 Discord 并免费开始",
+                "footer-socials-title": "社交媒体",
+                "footer-company-title": "公司",
+                "footer-careers": "职业",
+                "footer-goals": "我们的目标",
+                "footer-previous-projects": "以前的项目",
+                "footer-resources-title": "资源",
+                "footer-documentation": "文档",
+                "footer-help-center": "帮助中心",
+                "footer-community": "社区",
+                "footer-legal-title": "法律",
+                "footer-privacy-policy": "隐私政策",
+                "footer-terms-of-use": "使用条款",
+                "footer-cookie-policy": "Cookie 政策",
+                "footer-copyright": "© 2025 Solis AI. 用智能赋能创作者和企业。",
+                "video-watch-on-youtube": "在 YouTube 上观看",
+            }
+        };
+
+        const toggleButton = document.getElementById('language-toggle');
+        const dropdown = document.getElementById('language-dropdown');
+        const langOptions = document.querySelectorAll('.lang-option');
+        const translatableElements = document.querySelectorAll('[data-key]');
+
+        function translatePage(lang) {
+            if (!translations[lang]) return;
+            translatableElements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (key && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                        element.setAttribute('placeholder', translations[lang][key]);
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            langOptions.forEach(option => {
+                option.classList.remove('selected');
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('selected');
+                }
+            });
+
+            localStorage.setItem('solis-language', lang);
         }
-    });
+
+        toggleButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                const newLang = e.target.getAttribute('data-lang');
+                translatePage(newLang);
+                dropdown.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target) && !toggleButton.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('solis-language') || 'en';
+            translatePage(savedLang);
+        });
     </script>
 </body>
 </html>
