@@ -255,172 +255,172 @@
         line-height: 1.1;
     }
 
-    .f {
-        max-width: 700px;
-        margin: 0 auto;
-        position: relative;
-        display: flex;
-        align-items: center;
-        background: white;
-        border: 4px solid #ff8c5a;
-        border-radius: 60px;
-        padding: 10px 10px 10px 32px;
-        box-shadow: 0 12px 40px rgba(255, 107, 53, 0.25);
-        transition: all 0.4s ease;
+ .f {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 4px solid #ff8c5a;
+    border-radius: 60px;
+    padding: 10px 10px 10px 32px;
+    box-shadow: 0 12px 40px rgba(255, 107, 53, 0.25);
+    transition: all 0.4s ease;
+}
+
+.f::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 60px;
+    background: linear-gradient(90deg,
+            #ff6b35 0%,
+            #ffc107 25%,
+            #ff8c5a 50%,
+            #ffc107 75%,
+            #ff6b35 100%);
+    background-size: 200% 100%;
+    opacity: 0;
+    animation: borderFlow 4s linear infinite;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.f::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    border-radius: 75px;
+    background: linear-gradient(135deg,
+            rgba(255, 107, 53, 0.3) 0%,
+            rgba(255, 193, 7, 0.35) 25%,
+            rgba(255, 140, 90, 0.3) 50%,
+            rgba(255, 193, 7, 0.35) 75%,
+            rgba(255, 107, 53, 0.3) 100%);
+    background-size: 300% 300%;
+    filter: blur(35px);
+    opacity: 0;
+    z-index: -2;
+    animation: fogFlow 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes borderFlow {
+    0% {
+        background-position: 0% 0%;
     }
-
-    .f::before {
-        content: '';
-        position: absolute;
-        top: -4px;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
-        border-radius: 60px;
-        background: linear-gradient(90deg,
-                #ff6b35 0%,
-                #ffc107 25%,
-                #ff8c5a 50%,
-                #ffc107 75%,
-                #ff6b35 100%);
-        background-size: 200% 100%;
-        opacity: 0;
-        animation: borderFlow 4s linear infinite;
-        z-index: -1;
-        transition: opacity 0.4s ease;
+    100% {
+        background-position: 200% 0%;
     }
+}
 
-    .f::after {
-        content: '';
-        position: absolute;
-        top: -25px;
-        left: -25px;
-        right: -25px;
-        bottom: -25px;
-        border-radius: 70px;
-        background: linear-gradient(90deg,
-                rgba(255, 107, 53, 0.4) 0%,
-                rgba(255, 193, 7, 0.4) 25%,
-                rgba(255, 140, 90, 0.4) 50%,
-                rgba(255, 193, 7, 0.4) 75%,
-                rgba(255, 107, 53, 0.4) 100%);
-        background-size: 200% 100%;
-        filter: blur(25px);
-        opacity: 0.7;
-        z-index: -2;
-        animation: fogFlow 5s linear infinite;
-        pointer-events: none;
+@keyframes fogFlow {
+    0% {
+        background-position: 0% 50%;
+        opacity: 0.5;
+        transform: scale(1);
     }
-
-    @keyframes borderFlow {
-        0% {
-            background-position: 0% 0%;
-        }
-
-        100% {
-            background-position: 200% 0%;
-        }
+    50% {
+        background-position: 100% 50%;
+        opacity: 0.8;
+        transform: scale(1.05);
     }
-
-    @keyframes fogFlow {
-        0% {
-            background-position: 0% 0%;
-            opacity: 0.7;
-        }
-
-        50% {
-            opacity: 0.9;
-        }
-
-        100% {
-            background-position: 200% 0%;
-            opacity: 0.7;
-        }
+    100% {
+        background-position: 0% 50%;
+        opacity: 0.5;
+        transform: scale(1);
     }
+}
 
+.f:hover::before {
+    opacity: 1;
+}
 
-    .f:hover::before {
-        opacity: 1;
-    }
+.f:hover::after {
+    opacity: 0.9;
+    filter: blur(40px);
+}
 
-    .f:hover::after {
-        opacity: 1;
-        filter: blur(30px);
-    }
+.f:focus-within {
+    border-color: #ff6b35;
+    box-shadow: 0 20px 60px rgba(255, 107, 53, 0.45);
+}
 
-    .f:focus-within {
-        border-color: #ff6b35;
-        box-shadow: 0 20px 60px rgba(255, 107, 53, 0.45);
-    }
+.f:focus-within::before {
+    opacity: 1;
+    animation: borderFlow 2.5s linear infinite;
+}
 
-    .f:focus-within::before {
-        opacity: 1;
-        animation: borderFlow 2.5s linear infinite;
-    }
+.f:focus-within::after {
+    opacity: 1;
+    filter: blur(45px);
+    animation: fogFlow 4s ease-in-out infinite;
+}
 
-    .f:focus-within::after {
-        opacity: 1;
-        filter: blur(35px);
-        animation: fogFlow 3s linear infinite;
-    }
+.f input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    color: #2a2a2a;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
 
-    .f input {
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 17px;
-        color: #2a2a2a;
-        background: transparent;
-        position: relative;
-        z-index: 1;
-    }
+.f input::placeholder {
+    color: #aaa;
+}
 
-    .f input::placeholder {
-        color: #aaa;
-    }
+.f button {
+    background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+    border: none;
+    color: #1a1a1a;
+    padding: 16px 38px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
 
-    .f button {
-        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-        border: none;
-        color: #1a1a1a;
-        padding: 16px 38px;
-        border-radius: 50px;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.35s ease;
-        box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-    }
+.f button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
 
-    .f button::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-    }
+.f button:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(255, 193, 7, 0.6);
+}
 
-    .f button:hover {
-        transform: translateX(4px);
-        box-shadow: 0 8px 24px rgba(255, 193, 7, 0.6);
-    }
+.f button:hover::before {
+    width: 300px;
+    height: 300px;
+}
 
-    .f button:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .f button:active {
-        transform: translateX(2px) scale(0.98);
-    }
+.f button:active {
+    transform: translateX(2px) scale(0.98);
+}
 
     .g {
         max-width: 1200px;
@@ -1827,18 +1827,6 @@
                 </a>
                 <a href="https://x.com/Solis_Ai1" target="_blank" aria-label="X (Twitter)">
                     <i class="fa-brands fa-x-twitter"></i>
-                </a>
-            </div>
-        </div>
-
-        <div class="ai">
-            <div class="aj" data-key-ignore>A</div>
-            <h3 data-key-ignore>Alex A.</h3>
-            <p class="ak" data-key="team-designer-role">Co-Owner & Designer</p>
-            <p class="al" data-key="team-designer-bio">UI-UX Designer with a passion for creating visually stunning and user-friendly interfaces.</p>
-            <div class="am">
-                <a href="https://discord.gg/kvpbmJZDQK" target="_blank" aria-label="Discord">
-                    <i class="fa-brands fa-discord"></i>
                 </a>
             </div>
         </div>
