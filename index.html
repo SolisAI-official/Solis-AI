@@ -136,7 +136,7 @@
         }
 
 
-        .pricing-card-highlight {
+       .pricing-card-highlight {
             border: 2px solid #f97316;
             position: relative;
             padding: 40px;
@@ -146,7 +146,14 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transform: scale(1.05);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .pricing-card-highlight {
+                transform: scale(1.05);
+            }
         }
 
         .pricing-card-highlight::before {
@@ -159,7 +166,7 @@
             font-size: 10px;
             font-weight: 900;
             padding: 8px 24px;
-            border-radius: 0 0 0 16px;
+            border-radius: 0 40px 0 16px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -178,7 +185,18 @@
             gap: 8px;
         }
 
-        .glass-header {
+        .pricing-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .pricing-title {
+                font-size: 48px;
+            }
+        }
+        .header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid #f1f5f9;
@@ -188,7 +206,7 @@
             z-index: 100;
         }
 
-        .glass-card {
+        .card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.4);
@@ -354,9 +372,10 @@
                 font-size: 20px;
             }
         }
-        .input-glow {
+
+        .input-container {
             background: white;
-            padding: 8px;
+            padding: 8px 24px;
             border-radius: 24px;
             border: 2px solid #e2e8f0;
             display: flex;
@@ -364,59 +383,91 @@
             gap: 8px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            flex-wrap: nowrap;
         }
 
-        .input-glow-icon {
-            padding-left: 16px;
+        .input-container-icon {
+            padding-left: 12px;
             color: #cbd5e1;
             display: flex;
             align-items: center;
         }
 
-        .input-glow-icon svg {
-            width: 24px;
-            height: 24px;
+        .input-container-icon svg {
+            width: 20px;
+            height: 20px;
         }
 
-        .input-glow input {
+        .input-container input {
             flex-grow: 1;
-            padding: 16px;
+            padding: 12px;
             outline: none;
             font-weight: 600;
             color: #475569;
             background: transparent;
             border: none;
-            font-size: 15px;
+            font-size: 14px;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .input-glow input::placeholder {
+        .input-container input::placeholder {
             color: #cbd5e1;
         }
 
-        .input-glow button {
+        .input-container button {
             background: #ea580c;
             color: white;
-            padding: 16px 32px;
+            padding: 12px 24px;
             border-radius: 16px;
             font-weight: 900;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.3s ease;
             box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.2);
             font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
         }
 
-        .input-glow button:hover {
+        .input-container button:hover {
             background: #d97706;
         }
 
-        .input-glow button svg {
-            width: 20px;
-            height: 20px;
+        .input-container button svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 480px) {
+            .input-container {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 8px;
+                gap: 6px;
+            }
+
+            .input-container input {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .input-container button {
+                padding: 10px;
+                font-size: 14px;
+                gap: 4px;
+                justify-content: center;
+            }
+
+            .input-container-icon {
+                padding-left: 8px;
+            }
+
+            .input-container-icon svg {
+                width: 18px;
+                height: 18px;
+            }
         }
 
         .hero-features {
@@ -844,7 +895,7 @@
 </head>
 <body>
 
-    <nav class="glass-header">
+    <nav class="header">
         <div class="nav-container">
             <div class="nav-left">
                 <div class="nav-brand">
@@ -863,7 +914,7 @@
             </div>
             <div class="nav-right">
                 <a href="login.html" class="nav-login">Login</a>
-                <a class="btn-primary" href="login.html">Start Clipping</a>
+                <a class="btn-primary" href="login.html">Start Clipping SOON</a>
             </div>
         </div>
     </nav>
@@ -875,13 +926,13 @@
             <p class="hero-subtitle">Top creators don't edit randomly. They build videos from what already works.</p>
             
             <div class="max-w-3xl" style="margin: 0 auto 64px;">
-                <div class="input-glow">
-                    <div class="input-glow-icon">
+                <div class="input-container">
+                    <div class="input-container-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                     <input href="login.html" type="text" placeholder="Paste Your YouTube link">
                     <button>
-                        <span>WE ARE COMING SOON</span>
+                        <span>WE ARE COMING SOON!</span>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 </div>
@@ -894,7 +945,7 @@
 
             <div class="hero-image-wrapper">
                 <div class="hero-floating hero-floating-1 animate-float">
-                    <div class="glass-card virality-card">
+                    <div class="card virality-card">
                         <div class="virality-score">98</div>
                         <div class="virality-text">
                             <p class="virality-label">Virality Score</p>
@@ -904,7 +955,7 @@
                 </div>
 
                 <div class="hero-floating hero-floating-2 animate-float-delayed">
-                    <div class="glass-card caption-card">
+                    <div class="card caption-card">
                         <div class="caption-badge">
                             <div class="caption-badge-dot"></div>
                             <p class="caption-badge-text">Text-to-Search</p>
@@ -914,7 +965,7 @@
                 </div>
 
                 <div class="hero-floating hero-floating-3 animate-float-delayed">
-                    <div class="glass-card tracking-card">
+                    <div class="card tracking-card">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-width="2"/></svg>
                         <span>Video Clipping</span>
                     </div>
@@ -1028,11 +1079,10 @@
                 <h6>Product</h6>
                 <ul class="footer-links">
                     <li><a href="#">AI Clipping</a></li>
-                    <li><a href="#">Pricing</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h6>US</h6>
+                <h6>ABOUT US</h6>
                 <ul class="footer-links">
                     <li><a href="https://www.youtube.com/@SolisAI-Official">Youtube</a></li>
                     <li><a href="#">Tiktok</a></li>
